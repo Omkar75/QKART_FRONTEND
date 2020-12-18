@@ -121,7 +121,6 @@ export default class Cart extends React.Component {
     }
   };
 
-  /**
    * Perform the API call to add or update items in the user's cart
    * -    If the user is trying to add from the product card and the product already exists in cart, show an error message
    * -    Set the loading state variable to true
@@ -149,7 +148,6 @@ export default class Cart extends React.Component {
    * @param {string} productId ID of the product that is to be added or updated in cart
    * @param {number} qty How many of the product should be in the cart
    * @param {boolean} fromAddToCartButton If this function was triggered from the product card button
-   */
   pushToCart = async (productId, qty, fromAddToCartButton) => {
     if (fromAddToCartButton) {
       for (const item of this.state.items) {
@@ -181,7 +179,6 @@ export default class Cart extends React.Component {
     }
   };
 
-  /**
    * Function to get/refresh list of items in cart from backend and update state variable
    * -    Call the previously defined getCart() function asynchronously and capture the returned value in a variable
    * -    If the returned value exists,
@@ -189,7 +186,6 @@ export default class Cart extends React.Component {
    * -    If the cart is being displayed from the checkout page, or the cart is empty,
    *      -   Display an error message
    *      -   Redirect the user to the products listing page
-   */
   refreshCart = async () => {
     const cart = await this.getCart();
     if (cart) {
@@ -221,11 +217,9 @@ export default class Cart extends React.Component {
       : 0;
   };
 
-  /**
    * Function that runs when component has loaded
    * This is the function that is called when the page loads the cart component
    * We can call refreshCart() here to get the cart items
-   */
 
   // TODO: CRIO_TASK_MODULE_CHECKOUT - When displayed in the checkout page, display quantity of the item in cart (should be non-editable)
   getQuantityElement = ((item) => {

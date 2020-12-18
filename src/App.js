@@ -9,6 +9,7 @@ import Search from "./components/Search";
 import Thanks from "./components/Thanks";
 
 export const config = {
+  // TODO: Add your workspace iP here
   endpoint: "http://<workspace-ip>:8082/api/v1",
 };
 
