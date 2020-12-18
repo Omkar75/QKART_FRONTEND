@@ -33,28 +33,28 @@ beforeAll(() => {
             };
         };
 
-        window.fetch = async (url, options) => {
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    resolve({
-                        json: async () => {
-                            return new Promise((resolveNested) => {
-                                if (url.split("/")[url.split("/").length - 1] === "login") {
-                                    resolveNested({
-                                        success: true,
-                                        token: "testtoken",
-                                        username: "test123",
-                                    });
-                                }
-                            })
-                        }
-                    })
-                }, 500);
-            });
-        }
-    
-    
-        loginComponent = mount(
+    window.fetch = async (url, options) => {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve({
+                    json: async () => {
+                        return new Promise((resolveNested) => {
+                            if (url.split("/")[url.split("/").length - 1] === "login") {
+                                resolveNested({
+                                    success: true,
+                                    token: "testtoken",
+                                    username: "test123",
+                                });
+                            }
+                        })
+                    }
+                })
+            }, 500);
+        });
+    }
+
+    loginComponent = mount(
+        <BrowserRouter>
             <Login.WrappedComponent
                 history={{
                     push: (value) => {
@@ -62,7 +62,9 @@ beforeAll(() => {
                     }
                 }}
             />
-        );})
+        </ BrowserRouter>
+    ).find("Login");
+})
 
 describe('Check UI for Login page component (UI)', () => {
     test('Username field exists in Login page', () => {

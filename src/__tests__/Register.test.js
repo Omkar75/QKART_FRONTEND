@@ -2,6 +2,8 @@ import React from "react";
 import Register from '../components/Register'
 import { render, unmountComponentAtNode } from "react-dom";
 import { shallow, mount } from 'enzyme';
+import { BrowserRouter } from 'react-router-dom';
+
 const fs = require('fs')
 
 let container = null;
@@ -50,14 +52,16 @@ beforeAll(() => {
         });
     }
     registerComponent = mount(
-        <Register.WrappedComponent
-            history={{
-                push: (value) => {
-                    expect(value).toBe('/login');
-                }
-            }}
-        />
-    );
+        <BrowserRouter>
+            <Register.WrappedComponent
+                history={{
+                    push: (value) => {
+                        expect(value).toBe('/login');
+                    }
+                }}
+            />
+        </BrowserRouter>
+    ).find("Register");
 });
 
 
@@ -85,31 +89,4 @@ describe('Check UI for Register page component (UI)', () => {
     });
 });
 
-
-describe('Check flow for Register page component (flow)', () => {
-    it('should call the register() method when Register button is clicked', async () => {
-        const registerInstance = registerComponent.find('Register').instance();
-        const registerFnMock = jest.fn();
-        registerInstance.register = registerFnMock;
-
-        // Find the child element of UI rendered by the Register component with className of flex-container 
-        const flexContainerDiv = registerInstance.render().props.children.find((child) => {
-            return child.props.className === 'flex-container'
-        })
-
-        // Get the only child element of the flex-container div
-        const registerContainerDiv = flexContainerDiv.props.children
-
-        // Get reference of the button element
-        const registerButton = registerContainerDiv.props.children.find((child) => {
-            return child.type.displayName === 'Button'
-        })
-
-        // Invoke the onClick event handler for the button
-        await registerButton.props.onClick();
-
-        expect(registerFnMock.mock.calls.length).toBe(1);
-
-    })
-});
 

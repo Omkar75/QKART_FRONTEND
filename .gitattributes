@@ -1,1 +1,8 @@
 __CRIO__/metadata.json merge=copy-merge
+backend/* merge=copy-merge
+public/* merge=copy-merge
+src/__tests__/* merge=copy-merge
+src/components/*.css merge=copy-merge
+src/setupTests.js
+src/components/Thanks.js merge=copy-merge
+src/components/Footer.js merge=copy-merge
