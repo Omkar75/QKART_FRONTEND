@@ -7,6 +7,7 @@ import Register from "./components/Register";
 import Search from "./components/Search";
 
 export const config = {
+  // TODO: Add your workspace iP here
   endpoint: "http://<workspace-ip>:8082/api/v1",
 };
 

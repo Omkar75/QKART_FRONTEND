@@ -23,18 +23,15 @@ class Login extends React.Component {
     };
   }
 
-  /**
    * Validate the input values so that any bad or illegal values are not passed to the backend.
    * @returns {boolean} Whether validation has passed or not
    * 
    * Return false if any validation condition fails, otherwise return true.
    * -    Check that username field is not an empty value
    * -    Check that password field is not an empty value
-   */
   validateInput = () => {
   };
 
-  /**
    * Check the response of the API call to be valid and handle any failures along the way
    * @param   {boolean}       errored     Represents whether an error occurred in the process of making the API call itself
    * @param   {{ success: boolean, message?: string, token?: string, username?: string }}     response     The response JSON object which may contain further success or error messages
@@ -45,11 +42,9 @@ class Login extends React.Component {
    * When there is an error in the API call itself, display a generic error message and return false.
    * When there is an error returned by backend, display the given message field and return false.
    * When there is no error and API call is successful, return true.
-   */
   validateResponse = (errored, response) => {
   };
 
-  /**
    * Perform the API call over the network and return the response
    * @returns {{ success: boolean, token: string, username: string, balance: number }|undefined} The response JSON object
    * 
@@ -77,11 +72,9 @@ class Login extends React.Component {
    *      "success": false,
    *      "message": "Password is incorrect"
    * }
-   */
   performAPICall = async () => {
   };
 
-  /**
    * Store the login information so that it can be used to identify the user in subsequent API calls
    * @param {string} token API token used for authentication of requests after logging in
    * @param {string} username Username of the logged in user
@@ -91,11 +84,9 @@ class Login extends React.Component {
    * -    `token` field in localStorage can be used to store the Oauth token
    * -    `username` field in localStorage can be used to store the username that the user is logged in as
    * -    `balance` field in localStorage can be used to store the balance amount in the user's wallet
-   */
   persistLogin = (token, username, balance) => {
   };
 
-  /**
    * Definition for login handler
    * This is the function that is called when the user clicks on the login button or submits the login form
    * -    Call the previously defined validateInput() function and check that is returns true, i.e. the input values pass validation
@@ -105,7 +96,6 @@ class Login extends React.Component {
    *      -   Clear the input fields
    *      -   Display a success message
    *      -   Redirect the user to the "/products" page
-   */
 
 
   login = async () => {
@@ -157,4 +147,3 @@ class Login extends React.Component {
   }
 }
 
-export default withRouter(Login);

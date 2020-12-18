@@ -24,7 +24,6 @@ class Register extends React.Component {
       confirmPassword: "",
     };
   }
-  /**
    * Validate the input values so that any bad or illegal values are not passed to the backend.
    * 
    * @returns {boolean} Whether validation has passed or not
@@ -37,11 +36,9 @@ class Register extends React.Component {
    * -    Check that password field is not less than 6 characters in length
    * -    Check that password field is not more than 32 characters in length
    * -    Check that confirmPassword field has the same value as password field
-   */
   validateInput = () => {
   };
 
-  /**
    * Check the response of the API call to be valid and handle any failures along the way
    * @param    {boolean}                                  errored     Represents whether an error occurred in the process of making the API call itself
    * @param    {{ success: boolean, message?: string }}   response    The response JSON object which may contain further success or error messages
@@ -53,11 +50,9 @@ class Register extends React.Component {
    * When there is an error in the API call itself, display a generic error message and return false.
    * When there is an error returned by backend, display the given message field and return false.
    * When there is no error and API call is successful, return true.
-   */
   validateResponse = (errored, response) => {
   };
 
-  /**
   * Perform the API call over the network and return the response
   * -    Set the loading state variable to true
   * -    Perform the API call via a fetch call: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
@@ -81,11 +76,9 @@ class Register extends React.Component {
   *      "message": "Username is already taken"
   * }
   * @returns {{ success: boolean }|undefined} The response JSON object
-  */
   performAPICall = async () => {
   };
 
-  /**
    * Definition for register handler
    * This is the function that is called when the user clicks on the register button or submits the register form
    * -    Call the previously defined validateInput() function and check that is returns true, i.e. the input values pass validation
@@ -94,7 +87,6 @@ class Register extends React.Component {
    *      -   Clear the input fields
    *      -   Display a success message
    *      -   Redirect the user to the "/login" page
-   */
   register = async () => {
   };
 
@@ -153,4 +145,3 @@ class Register extends React.Component {
   }
 }
 
-export default withRouter(Register);

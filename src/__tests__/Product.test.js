@@ -2,6 +2,7 @@
 import { mount } from "enzyme";
 import React from "react";
 import Product from "../components/Product";
+import { Button, Rate } from "antd";
 
 window.scrollTo = jest.fn()
 
@@ -35,3 +36,13 @@ describe("Check UI for Product component (UI)", () => {
         expect(productComponent.find("img").prop("src")).toBe(exampleProduct.image);
     });
 });
+
+describe("Rate in Product component (UI)", () => {
+    it("should be an antd component", () => {
+        expect(productComponent.find(Rate).exists()).toBe(true);
+    })
+
+    it("should be read only", () => {
+        expect(productComponent.find(Rate).prop('disabled')).toBe(true);
+    })
+})
