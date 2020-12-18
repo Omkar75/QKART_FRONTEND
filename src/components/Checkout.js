@@ -1,4 +1,3 @@
-
 import { Button, message, Radio, Row, Col } from "antd";
 import TextArea from "antd/lib/input/TextArea";
 import React from "react";
@@ -290,7 +289,6 @@ class Checkout extends React.Component {
     }
   };
 
-  /**
    * Perform the API call to delete an address for the user
    * -    Set the loading state variable to true
    * -    Perform the API call via a fetch call: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
@@ -317,11 +315,9 @@ class Checkout extends React.Component {
    *      "message": "Address to delete was not found"
    * }
    * @param {string} addressId ID of the address record to delete
-   */
   deleteAddress = async (addressId) => {
   };
 
-  /**
    * Perform the API call to place an order
    * -    Set the loading state variable to true
    * -    Perform the API call via a fetch call: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
@@ -349,7 +345,6 @@ class Checkout extends React.Component {
    *      "message": "Wallet balance not sufficient to place order"
    * }
    * @param {string} addressId ID of the address record to delete
-   */
   checkout = async () => {
     let response = {};
     let errored = false;
@@ -382,12 +377,10 @@ class Checkout extends React.Component {
     }
   };
 
-  /**
    * Function that is called when the user clicks on the place order button
    * -    If the user's wallet balance is less than the total cost of the user's cart, then display an appropriate error message
    * -    Else if the user does not have any addresses, or has not selected an available address, then display an appropriate error message
    * -    Else call the checkout() method to proceed with placing and order
-   */
   order = () => {
     if (this.state.balance < this.cartRef.current.calculateTotal()) {
       message.error(
@@ -403,17 +396,14 @@ class Checkout extends React.Component {
     }
   };
 
-  /**
    * Function that runs when component has loaded
    * This is the function that is called when the user lands on the Checkout page
    * If the user is logged in (i.e. the localStorage fields for `username` and `token` exist), fetch products and addresses from backend (asynchronously) to component state
    * Update the balance state variable with the value stored in localStorage
    * Else, show an error message indicating that the user must be logged in first and redirect the user to the home page
-   */
   async componentDidMount() {
   }
 
-  /**
    * JSX and HTML goes here
    * We display the cart component as the main review for the user on this page (Cart component must know that it should be non-editable)
    * We display the payment method and wallet balance
@@ -422,7 +412,6 @@ class Checkout extends React.Component {
    * A text field (and button) is required so the user may add a new address
    * We display a link to the products page if the user wants to shop more or update cart
    * A button to place the order is displayed
-   */
   render() {
     const radioStyle = {
       display: "block",
