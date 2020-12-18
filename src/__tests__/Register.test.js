@@ -2,6 +2,8 @@ import React from "react";
 import Register from '../components/Register'
 import { render, unmountComponentAtNode } from "react-dom";
 import { shallow, mount } from 'enzyme';
+import { BrowserRouter } from 'react-router-dom';
+
 const fs = require('fs')
 
 let container = null;
@@ -50,14 +52,16 @@ beforeAll(() => {
         });
     }
     registerComponent = mount(
-        <Register.WrappedComponent
-            history={{
-                push: (value) => {
-                    expect(value).toBe('/login');
-                }
-            }}
-        />
-    );
+        <BrowserRouter>
+            <Register.WrappedComponent
+                history={{
+                    push: (value) => {
+                        expect(value).toBe('/login');
+                    }
+                }}
+            />
+        </BrowserRouter>
+    ).find("Register");
 });
 
 
@@ -84,7 +88,6 @@ describe('Check UI for Register page component (UI)', () => {
         expect(registerComponent.find('button').exists()).toBe(true);
     });
 });
-
 
 describe('Check flow for Register page component (flow)', () => {
     test('Register failure flow (no input)', () => {
@@ -126,30 +129,6 @@ describe('Check flow for Register page component (flow)', () => {
         registerComponent.instance().register();
         expect(registerComponent.state('loading')).toBe(true);
     });
-    it('should call the register() method when Register button is clicked', async () => {
-        const registerInstance = registerComponent.find('Register').instance();
-        const registerFnMock = jest.fn();
-        registerInstance.register = registerFnMock;
-
-        // Find the child element of UI rendered by the Register component with className of flex-container 
-        const flexContainerDiv = registerInstance.render().props.children.find((child) => {
-            return child.props.className === 'flex-container'
-        })
-
-        // Get the only child element of the flex-container div
-        const registerContainerDiv = flexContainerDiv.props.children
-
-        // Get reference of the button element
-        const registerButton = registerContainerDiv.props.children.find((child) => {
-            return child.type.displayName === 'Button'
-        })
-
-        // Invoke the onClick event handler for the button
-        await registerButton.props.onClick();
-
-        expect(registerFnMock.mock.calls.length).toBe(1);
-
-    })
 });
 
 describe('Test curl commmand for register', () => {
@@ -162,21 +141,18 @@ describe('Test curl commmand for register', () => {
     }
 
     test('Check if request is of type POST', () => {
-        // expect(loginComponent.find('input[type="text"]').exists()).toBe(true);
         const postPattern = /(?<=-X\s*)POST/
         const isPOST = postPattern.test(curl);
         expect(isPOST).toBe(true);
     });
 
-    test('Check if correct login API is called', () => {
-        // expect(loginComponent.find('input[type="text"]').exists()).toBe(true);
-        const postPattern = /(localhost|127.0.0.1|0.0.0.0):8082\/api\/v1\/auth\/register/
+    test('Check if correct register API is called', () => {
+        const postPattern = /(\w+)?:8082\/api\/v1\/auth\/register/
         const isPOST = postPattern.test(curl);
         expect(isPOST).toBe(true);
     });
 
     test('Content-type header is set to application/json', () => {
-        // expect(loginComponent.find('input[type="text"]').exists()).toBe(true);
         const headerPattern = /(?<=-H\s*)'Content-Type:\s*application\/json\s*'/
         const isJSON = headerPattern.test(curl);
         expect(isJSON).toBe(true);

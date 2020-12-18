@@ -33,28 +33,28 @@ beforeAll(() => {
             };
         };
 
-        window.fetch = async (url, options) => {
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    resolve({
-                        json: async () => {
-                            return new Promise((resolveNested) => {
-                                if (url.split("/")[url.split("/").length - 1] === "login") {
-                                    resolveNested({
-                                        success: true,
-                                        token: "testtoken",
-                                        username: "test123",
-                                    });
-                                }
-                            })
-                        }
-                    })
-                }, 500);
-            });
-        }
-    
-    
-        loginComponent = mount(
+    window.fetch = async (url, options) => {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve({
+                    json: async () => {
+                        return new Promise((resolveNested) => {
+                            if (url.split("/")[url.split("/").length - 1] === "login") {
+                                resolveNested({
+                                    success: true,
+                                    token: "testtoken",
+                                    username: "test123",
+                                });
+                            }
+                        })
+                    }
+                })
+            }, 500);
+        });
+    }
+
+    loginComponent = mount(
+        <BrowserRouter>
             <Login.WrappedComponent
                 history={{
                     push: (value) => {
@@ -62,7 +62,9 @@ beforeAll(() => {
                     }
                 }}
             />
-        );})
+        </ BrowserRouter>
+    ).find("Login");
+})
 
 describe('Check UI for Login page component (UI)', () => {
     test('Username field exists in Login page', () => {
@@ -91,21 +93,18 @@ describe('Test curl commmand for login', () => {
     }
 
     test('Check if request is of type POST', () => {
-        // expect(loginComponent.find('input[type="text"]').exists()).toBe(true);
         const postPattern = /(?<=-X\s*)POST/
         const isPOST = postPattern.test(curl);
         expect(isPOST).toBe(true);
     });
 
     test('Check if correct login API is called', () => {
-        // expect(loginComponent.find('input[type="text"]').exists()).toBe(true);
-        const postPattern = /(localhost|127.0.0.1|0.0.0.0):8082\/api\/v1\/auth\/login/
+        const postPattern = /(\w+)?:8082\/api\/v1\/auth\/login/
         const isPOST = postPattern.test(curl);
         expect(isPOST).toBe(true);
     });
 
     test('Content-type header is set to application/json', () => {
-        // expect(loginComponent.find('input[type="text"]').exists()).toBe(true);
         const headerPattern = /(?<=-H\s*)'Content-Type:\s*application\/json\s*'/
         const isJSON = headerPattern.test(curl);
         expect(isJSON).toBe(true);
