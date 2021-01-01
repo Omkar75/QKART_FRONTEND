@@ -8,10 +8,15 @@ import Header from "./Header";
 
 /**
  * @class Login component handles the Login page UI and functionality
+ *
  * Contains the following fields
- * @property {boolean} state.loading Indicates background action pending completion. When true, further UI actions might be blocked
- * @property {string} state.username User given field for username
- * @property {string} state.password User given field for password
+ *
+ * @property {boolean} state.loading
+ *    Indicates background action pending completion. When true, further UI actions might be blocked
+ * @property {string}
+ *    state.username User given field for username
+ * @property {string}
+ *    state.password User given field for password
  */
 class Login extends React.Component {
   constructor() {
@@ -25,7 +30,6 @@ class Login extends React.Component {
 
 
   // TODO: CRIO_TASK_MODULE_UNDERSTANDING_BASICS - Implement the login() function to display a message, "Login logic not implemented yet"
-
   /**
    * Definition for login handler
    * This is the function that is called when the user clicks on the login button or submits the login form
@@ -41,10 +45,14 @@ class Login extends React.Component {
   render() {
     return (
       <>
+        {/* Display Header */}
         <Header history={this.props.history} />
+
+        {/* Display Login fields */}
         <div className="flex-container">
           <div className="login-container container">
             <h1>Login to QKart</h1>
+
             <Input
               className="input-field"
               prefix={<UserOutlined className="site-form-item-icon" />}
@@ -55,6 +63,7 @@ class Login extends React.Component {
                 });
               }}
             />
+
             <Input.Password
               className="input-field"
               prefix={<LockOutlined className="site-form-item-icon" />}
@@ -65,6 +74,7 @@ class Login extends React.Component {
                 });
               }}
             />
+
             <Button
               loading={this.state.loading}
               type="primary"
@@ -74,6 +84,8 @@ class Login extends React.Component {
             </Button>
           </div>
         </div>
+
+        {/* Display the footer */}
         <Footer></Footer>
       </>
     );

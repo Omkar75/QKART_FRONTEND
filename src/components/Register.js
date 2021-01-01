@@ -8,11 +8,17 @@ import Header from "./Header";
 
 /**
  * @class Register component handles the Register page UI and functionality
+ *
  * Contains the following fields
- * @property {boolean} state.loading Indicates background action pending completion. When true, further UI actions might be blocked
- * @property {string} state.username User given field for username
- * @property {string} state.password User given field for password
- * @property {string} state.confirmPassword User given field for retyping and confirming password
+ *
+ * @property {boolean} state.loading
+ *    Indicates background action pending completion. When true, further UI actions might be blocked
+ * @property {string} state.username
+ *    User given field for username
+ * @property {string} state.password
+ *    User given field for password
+ * @property {string} state.confirmPassword
+ *    User given field for retyping and confirming password
  */
 class Register extends React.Component {
   constructor() {
@@ -24,6 +30,7 @@ class Register extends React.Component {
       confirmPassword: "",
     };
   }
+  
   /**
    * Definition for register handler
    * This is the function that is called when the user clicks on the register button or submits the register form
@@ -38,14 +45,17 @@ class Register extends React.Component {
    * We require a text field, a password field, and a confirm password field (each with data binding to state), and a submit button that calls register()
    */
   render() {
-    // Ant design library supports dynamic data binding and validation as in-built features in their components.
-    // We're not using those features here intentionally to allow better learning of React constructs
     return (
       <>
+        {/* Display Header */}
         <Header history={this.props.history} />
+
+        {/* Display Register fields */}
         <div className="flex-container">
           <div className="register-container container">
             <h1>Make an account</h1>
+
+            {/* Antd component which renders a formatted <input type="text"> field */}
             <Input
               className="input-field"
               prefix={<UserOutlined className="site-form-item-icon" />}
@@ -56,6 +66,8 @@ class Register extends React.Component {
                 });
               }}
             />
+
+            {/* Antd component which renders a formatted <input type="password"> field */}
             <Input.Password
               className="input-field"
               prefix={<LockOutlined className="site-form-item-icon" />}
@@ -66,6 +78,8 @@ class Register extends React.Component {
                 });
               }}
             />
+
+            {/* Antd component which renders a formatted <input type="password"> field */}
             <Input.Password
               className="input-field"
               // TODO: CRIO_TASK_MODULE_UNDERSTANDING_BASICS - Add a lock icon to the input bar (check how the "Password" input bar is rendered)
@@ -76,6 +90,8 @@ class Register extends React.Component {
                 });
               }}
             />
+
+            {/* Antd component which renders a formatted <button type="button"> field */}
             <Button
               loading={this.state.loading}
               type="primary"
@@ -85,6 +101,8 @@ class Register extends React.Component {
             </Button>
           </div>
         </div>
+
+        {/* Display the footer */}
         <Footer></Footer>
       </>
     );
