@@ -26,14 +26,22 @@ import Header from "./Header";
 
 /**
  * @class Checkout component handles the Checkout page UI and functionality
+ * 
  * Contains the following fields
- * @property {React.RefObject} cartRef Reference to Cart component (to trigger certain methods within the cart component)
- * @property {Product[]} state.products List of products fetched from backend
- * @property {Address[]} state.addresses List of user's addresses fetched from backend
- * @property {number} state.selectedAddressIndex Index for which of the user's addresses is currently selected
- * @property {string} state.newAddress Data binding for the input field to enter a new address
- * @property {number} state.balance Balance amount in the current user's wallet
- * @property {boolean} state.loading Indicates background action pending completion. When true, further UI actions might be blocked
+ * @property {React.RefObject} cartRef 
+ *    Reference to Cart component (to trigger certain methods within the cart component)
+ * @property {Product[]} state.products 
+ *    List of products fetched from backend
+ * @property {Address[]} state.addresses 
+ *    List of user's addresses fetched from backend
+ * @property {number} state.selectedAddressIndex 
+ *    Index for which of the user's addresses is currently selected
+ * @property {string} state.newAddress 
+ *    Data binding for the input field to enter a new address
+ * @property {number} state.balance 
+ *    Balance amount in the current user's wallet
+ * @property {boolean} state.loading 
+ *    Indicates background action pending completion. When true, further UI actions might be blocked
  */
 class Checkout extends React.Component {
   constructor() {
@@ -51,14 +59,19 @@ class Checkout extends React.Component {
 
   /**
    * Check the response of the getProducts() API call to be valid and handle any failures along the way
+   *
+   * @param {boolean} errored 
+   *    Represents whether an error occurred in the process of making the API call itself
+   * @param {Product[]|{ success: boolean, message: string }} response 
+   *    The response JSON object which may contain further success or error messages
+   * @returns {boolean} 
+   *    Whether validation has passed or not
+   *
    * If the API call itself encounters an error, errored flag will be true.
    * If the backend returns an error, then success field will be false and message field will have a string with error details to be displayed.
    * When there is an error in the API call itself, display a generic error message and return false.
    * When there is an error returned by backend, display the given message field and return false.
    * When there is no error and API call is successful, return true.
-   * @param {boolean} errored Represents whether an error occurred in the process of making the API call itself
-   * @param {Product[]|{ success: boolean, message: string }} response The response JSON object which may contain further success or error messages
-   * @returns {boolean} Whether validation has passed or not
    */
   validateGetProductsResponse = (errored, response) => {
     if (errored || (!response.length && !response.message)) {
@@ -67,10 +80,12 @@ class Checkout extends React.Component {
       );
       return false;
     }
+
     if (!response.length) {
       message.error(response.message || "No products found in database");
       return false;
     }
+
     return true;
   };
 
@@ -117,17 +132,21 @@ class Checkout extends React.Component {
   getProducts = async () => {
     let response = {};
     let errored = false;
+
     this.setState({
       loading: true,
     });
+
     try {
       response = await (await fetch(`${config.endpoint}/products`)).json();
     } catch (e) {
       errored = true;
     }
+
     this.setState({
       loading: false,
     });
+
     if (this.validateGetProductsResponse(errored, response)) {
       if (response) {
         this.setState({
@@ -139,15 +158,21 @@ class Checkout extends React.Component {
 
   /**
    * Check the response of other API calls to be valid and handle any failures along the way
+   *
+   * @param {boolean} errored 
+   *    Represents whether an error occurred in the process of making the API call itself
+   * @param {Address[]|{ success: boolean, message?: string }} response 
+   *    The response JSON object which may contain further success or error messages
+   * @param {string} couldNot 
+   *    String indicating what could not be loaded
+   * @returns {boolean} 
+   *    Whether validation has passed or not
+   *
    * If the API call itself encounters an error, errored flag will be true.
    * If the backend returns an error, then success field will be false and message field will have a string with error details to be displayed.
    * When there is an error in the API call itself, display a generic error message and return false.
    * When there is an error returned by backend, display the given message field and return false.
    * When there is no error and API call is successful, return true.
-   * @param {boolean} errored Represents whether an error occurred in the process of making the API call itself
-   * @param {Address[]|{ success: boolean, message?: string }} response The response JSON object which may contain further success or error messages
-   * @param {string} couldNot String indicating what could not be loaded
-   * @returns {boolean} Whether validation has passed or not
    */
   validateResponse = (errored, response, couldNot) => {
     if (errored) {
@@ -198,9 +223,11 @@ class Checkout extends React.Component {
   getAddresses = async () => {
     let response = {};
     let errored = false;
+
     this.setState({
       loading: true,
     });
+
     try {
       response = await (
         await fetch(`${config.endpoint}/user/addresses`, {
@@ -213,9 +240,11 @@ class Checkout extends React.Component {
     } catch (e) {
       errored = true;
     }
+
     this.setState({
       loading: false,
     });
+
     if (this.validateResponse(errored, response, "fetch addresses")) {
       if (response) {
         this.setState({
@@ -256,9 +285,11 @@ class Checkout extends React.Component {
   addAddress = async () => {
     let response = {};
     let errored = false;
+    
     this.setState({
       loading: true,
     });
+    
     try {
       response = await (
         await fetch(`${config.endpoint}/user/addresses`, {
@@ -275,15 +306,19 @@ class Checkout extends React.Component {
     } catch (e) {
       errored = true;
     }
+    
     this.setState({
       loading: false,
     });
+    
     if (this.validateResponse(errored, response, "add a new address")) {
       if (response) {
         message.success("Address added");
+        
         this.setState({
           newAddress: "",
         });
+        
         await this.getAddresses();
       }
     }
@@ -292,6 +327,10 @@ class Checkout extends React.Component {
   // TODO: CRIO_TASK_MODULE_CHECKOUT - Implement deleteAddresses() to make DELETE API request to the backend API path "/user/addresses/:userid"
   /**
    * Perform the API call to delete an address for the user
+   *
+   * @param {string} addressId 
+   *    ID of the address record to delete
+   *
    * -    Set the loading state variable to true
    * -    Perform the API call via a fetch call: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
    * -    The call must be made asynchronously using Promises or async/await
@@ -316,13 +355,13 @@ class Checkout extends React.Component {
    *      "success": false,
    *      "message": "Address to delete was not found"
    * }
-   * @param {string} addressId ID of the address record to delete
    */
   deleteAddress = async (addressId) => {
   };
 
   /**
    * Perform the API call to place an order
+   * 
    * -    Set the loading state variable to true
    * -    Perform the API call via a fetch call: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
    * -    The call must be made asynchronously using Promises or async/await
@@ -348,14 +387,15 @@ class Checkout extends React.Component {
    *      "success": false,
    *      "message": "Wallet balance not sufficient to place order"
    * }
-   * @param {string} addressId ID of the address record to delete
    */
   checkout = async () => {
     let response = {};
     let errored = false;
+
     this.setState({
       loading: true,
     });
+
     try {
       response = await (
         await fetch(`${config.endpoint}/cart/checkout`, {
@@ -372,6 +412,7 @@ class Checkout extends React.Component {
     } catch (e) {
       errored = true;
     }
+
     this.setState({
       loading: false,
     });
@@ -395,13 +436,16 @@ class Checkout extends React.Component {
       message.error(
         "You do not have enough balance in your wallet for this purchase"
       );
+
     } else if (
       !this.state.addresses.length ||
       !this.state.addresses[this.state.selectedAddressIndex]
     ) {
       message.error("Please select an address or add a new address to proceed");
+
     } else {
       this.checkout();
+
     }
   };
 
@@ -435,22 +479,31 @@ class Checkout extends React.Component {
 
     return (
       <>
+        {/* Display Header */}
         <Header history={this.props.history} />
+
+        {/* Display Checkout page content */}
         <div className="checkout-container">
           <Row>
             {/* TODO: CRIO_TASK_MODULE_CHECKOUT - Cart should be shown on top of  Shipping and Pricing blocks in "xs" devices */}
+            {/* Display checkout instructions */}
             {/* <Col xs={{ span: 24 }} md={{ span: 18 }}> */}
               <div className="checkout-shipping">
                 <h1 style={{ marginBottom: "-10px" }}>Shipping</h1>
+
                 <hr></hr>
                 <br></br>
+
                 <p>
                   Manage all the shipping addresses you want (work place, home
                   address)<br></br>This way you won't have to enter the shipping
                   address manually with each order.
                 </p>
+
+                {/* Display the "Shipping" sectino */}
                 <div className="address-section">
                   {this.state.addresses.length ? (
+                    // Display the list of addresses as radio buttons
                     <Radio.Group
                       className="addresses"
                       defaultValue={this.state.selectedAddressIndex}
@@ -460,16 +513,19 @@ class Checkout extends React.Component {
                         });
                       }}
                     >
-                      
                       <Row>
+                        {/* Create a view for each of the user's addresses */}
                         {this.state.addresses.map((address, index) => (
                           <Col xs={24} lg={12} key={address._id}>
                             <div className="address">
                               <Radio.Button value={index}>
                                 <div className="address-box">
+                                  {/* Display address title */}
                                   <div className="address-text">
                                     {address.address}
                                   </div>
+
+                                  {/* Display button to delete address from user's list */}
                                   <Button
                                     type="primary"
                                   >
@@ -483,11 +539,15 @@ class Checkout extends React.Component {
                       </Row>
                     </Radio.Group>
                   ) : (
-                      <div className="red-text checkout-row">
-                        No addresses found. Please add one to proceed.
-                      </div>
-                    )}
+                    // Display static text banner if no addresses are added
+                    <div className="red-text checkout-row">
+                      No addresses found. Please add one to proceed.
+                    </div>
+                  )}
+
+
                   <div className="checkout-row">
+                    {/* Text input field to type a new address */}
                     <div>
                       <TextArea
                         className="new-address"
@@ -501,6 +561,8 @@ class Checkout extends React.Component {
                         }}
                       />
                     </div>
+                    
+                    {/* Button to submit address added */}
                     <div>
                       <Button type="primary" onClick={this.addAddress}>
                         Add New Address
@@ -508,11 +570,17 @@ class Checkout extends React.Component {
                     </div>
                   </div>
                 </div>
+
                 <br></br>
+
+                {/* Display the "Pricing" section */}
                 <div>
                   <h1 style={{ marginBottom: "-10px" }}>Pricing</h1>
+
                   <hr></hr>
+
                   <h2>Payment Method</h2>
+                  
                   <Radio.Group value={1}>
                     <Radio style={radioStyle} value={1}>
                       Wallet
@@ -520,7 +588,10 @@ class Checkout extends React.Component {
                     </Radio>
                   </Radio.Group>
                 </div>
+
                 <br></br>
+
+                {/* Button to confirm order */}
                 <Button
                   className="ant-btn-success"
                   loading={this.state.loading}
@@ -531,6 +602,8 @@ class Checkout extends React.Component {
                 </Button>
               </div>
             </Col>
+
+            {/* Display the cart */}
             {/* <Col xs={{ span: 24 }} md={6} className="checkout-cart"> */}
               <div>
                 {this.state.products.length && (
@@ -545,8 +618,10 @@ class Checkout extends React.Component {
               </div>
             </Col>
           </Row>
-          <Footer></Footer>
         </div>
+
+        {/* Display the footer */}
+        <Footer></Footer>
       </>
     );
   }
