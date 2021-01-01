@@ -8,10 +8,15 @@ import Header from "./Header";
 
 /**
  * @class Login component handles the Login page UI and functionality
+ *
  * Contains the following fields
- * @property {boolean} state.loading Indicates background action pending completion. When true, further UI actions might be blocked
- * @property {string} state.username User given field for username
- * @property {string} state.password User given field for password
+ *
+ * @property {boolean} state.loading
+ *    Indicates background action pending completion. When true, further UI actions might be blocked
+ * @property {string}
+ *    state.username User given field for username
+ * @property {string}
+ *    state.password User given field for password
  */
 class Login extends React.Component {
   constructor() {
@@ -23,31 +28,44 @@ class Login extends React.Component {
     };
   }
 
+  /**
    * Validate the input values so that any bad or illegal values are not passed to the backend.
-   * @returns {boolean} Whether validation has passed or not
-   * 
+   *
+   * @returns {boolean}
+   *    Whether validation has passed or not
+   *
    * Return false if any validation condition fails, otherwise return true.
    * -    Check that username field is not an empty value
    * -    Check that password field is not an empty value
+   */
   validateInput = () => {
   };
 
+  /**
    * Check the response of the API call to be valid and handle any failures along the way
-   * @param   {boolean}       errored     Represents whether an error occurred in the process of making the API call itself
-   * @param   {{ success: boolean, message?: string, token?: string, username?: string }}     response     The response JSON object which may contain further success or error messages
-   * @returns {boolean}   Whether validation has passed or not
-   * 
+   *
+   * @param {boolean} errored
+   *    Represents whether an error occurred in the process of making the API call itself
+   * @param {{ success: boolean, message?: string, token?: string, username?: string }} response
+   *    The response JSON object from API call which may contain further success or error messages
+   * @returns {boolean}
+   *    Whether validation has passed or not
+   *
    * If the API call itself encounters an error, errored flag will be true.
    * If the backend returns an error, then success field will be false and message field will have a string with error details to be displayed.
    * When there is an error in the API call itself, display a generic error message and return false.
    * When there is an error returned by backend, display the given message field and return false.
    * When there is no error and API call is successful, return true.
+   */
   validateResponse = (errored, response) => {
   };
 
+  /**
    * Perform the API call over the network and return the response
-   * @returns {{ success: boolean, token: string, username: string, balance: number }|undefined} The response JSON object
-   * 
+   *
+   * @returns {{ success: boolean, token: string, username: string, balance: number }|undefined}
+   *    The response JSON object
+   *
    * -    Set the loading state variable to true
    * -    Perform the API call via a fetch call: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
    *      - The call must be made asynchronously using Promises or async/await
@@ -72,21 +90,29 @@ class Login extends React.Component {
    *      "success": false,
    *      "message": "Password is incorrect"
    * }
+   */
   performAPICall = async () => {
   };
 
+  /**
    * Store the login information so that it can be used to identify the user in subsequent API calls
-   * @param {string} token API token used for authentication of requests after logging in
-   * @param {string} username Username of the logged in user
-   * @param {string} balance Wallet balance amount of the logged in user
-   * 
+   *
+   * @param {string} token
+   *    API token used for authentication of requests after logging in
+   * @param {string} username
+   *    Username of the logged in user
+   * @param {string} balance
+   *    Wallet balance amount of the logged in user
+   *
    * Make use of localStorage: https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
    * -    `token` field in localStorage can be used to store the Oauth token
    * -    `username` field in localStorage can be used to store the username that the user is logged in as
    * -    `balance` field in localStorage can be used to store the balance amount in the user's wallet
+   */
   persistLogin = (token, username, balance) => {
   };
 
+  /**
    * Definition for login handler
    * This is the function that is called when the user clicks on the login button or submits the login form
    * -    Call the previously defined validateInput() function and check that is returns true, i.e. the input values pass validation
@@ -96,7 +122,7 @@ class Login extends React.Component {
    *      -   Clear the input fields
    *      -   Display a success message
    *      -   Redirect the user to the "/products" page
-
+   */
 
   login = async () => {
   };
@@ -108,10 +134,14 @@ class Login extends React.Component {
   render() {
     return (
       <>
+        {/* Display Header */}
         <Header history={this.props.history} />
+
+        {/* Display Login fields */}
         <div className="flex-container">
           <div className="login-container container">
             <h1>Login to QKart</h1>
+
             <Input
               className="input-field"
               prefix={<UserOutlined className="site-form-item-icon" />}
@@ -122,6 +152,7 @@ class Login extends React.Component {
                 });
               }}
             />
+
             <Input.Password
               className="input-field"
               prefix={<LockOutlined className="site-form-item-icon" />}
@@ -132,6 +163,7 @@ class Login extends React.Component {
                 });
               }}
             />
+
             <Button
               loading={this.state.loading}
               type="primary"
@@ -141,6 +173,8 @@ class Login extends React.Component {
             </Button>
           </div>
         </div>
+
+        {/* Display the footer */}
         <Footer></Footer>
       </>
     );

@@ -20,12 +20,18 @@ import "./Search.css";
 
 /**
  * @class Search component handles the Products list page UI and functionality
+ * 
  * Contains the following fields
- * @property {number} debounceTimeout Holds the return value from setTimeout() for the search bar debouncer
- * @property {Product[]} products List of products fetched from backend
- * @property {boolean} state.loading Indicates background action pending completion. When true, further UI actions might be blocked
- * @property {boolean} state.loggedIn Indicated if user is logged in or not. Decides whether or not cart sidebar is shown
- * @property {Product[]} state.filteredProducts List of products filtered by search query to display
+ * @property {number} debounceTimeout 
+ *    Holds the return value from setTimeout() for the search bar debouncer
+ * @property {Product[]} products 
+ *    List of products fetched from backend
+ * @property {boolean} state.loading 
+ *    Indicates background action pending completion. When true, further UI actions might be blocked
+ * @property {boolean} state.loggedIn 
+ *    Indicated if user is logged in or not. Decides whether or not cart sidebar is shown
+ * @property {Product[]} state.filteredProducts 
+ *    List of products filtered by search query to display
  */
 class Search extends React.Component {
   constructor() {
@@ -41,14 +47,19 @@ class Search extends React.Component {
 
   /**
    * Check the response of the API call to be valid and handle any failures along the way
+   *
+   * @param {boolean} errored 
+   *    Represents whether an error occurred in the process of making the API call itself
+   * @param {Product[]|{ success: boolean, message: string }} response 
+   *    The response JSON object which may contain further success or error messages
+   * @returns {boolean} 
+   *    Whether validation has passed or not
+   *
    * If the API call itself encounters an error, errored flag will be true.
    * If the backend returns an error, then success field will be false and message field will have a string with error details to be displayed.
    * When there is an error in the API call itself, display a generic error message and return false.
    * When there is an error returned by backend, display the given message field and return false.
    * When there is no error and API call is successful, return true.
-   * @param {boolean} errored Represents whether an error occurred in the process of making the API call itself
-   * @param {Product[]|{ success: boolean, message: string }} response The response JSON object which may contain further success or error messages
-   * @returns {boolean} Whether validation has passed or not
    */
   validateResponse = (errored, response) => {
     if (errored || (!response.length && !response.message)) {
@@ -57,15 +68,21 @@ class Search extends React.Component {
       );
       return false;
     }
+
     if (!response.length) {
       message.error(response.message || "No products found in database");
       return false;
     }
+
     return true;
   };
 
   /**
    * Perform the API call over the network and return the response
+   *
+   * @returns {Product[]|undefined} 
+   *    The response JSON object
+   *
    * -    Set the loading state variable to true
    * -    Perform the API call via a fetch call: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
    * -    The call must be made asynchronously using Promises or async/await
@@ -102,22 +119,25 @@ class Search extends React.Component {
    *      "success": false,
    *      "message": "Something went wrong. Check the backend console for more details"
    * }
-   * @returns {Product[]|undefined} The response JSON object
    */
   performAPICall = async () => {
     let response = {};
     let errored = false;
+
     this.setState({
       loading: true,
     });
+
     try {
       response = await (await fetch(`${config.endpoint}/products`)).json();
     } catch (e) {
       errored = true;
     }
+
     this.setState({
       loading: false,
     });
+
     if (this.validateResponse(errored, response)) {
       return response;
     }
@@ -129,23 +149,28 @@ class Search extends React.Component {
    * This is the function that is called whenever the user types or changes the text in the searchbar field
    * We need to make sure that the search handler isn't constantly called for every key press, so we debounce the logic
    * i.e. we make sure that only after a specific amount of time passes after the final keypress (with no other keypress event happening in between), we run the required function
+   *
+   * @param {{ target: { value: string } }} event 
+   *    JS event object emitted from the search input field
+   *
    * -    Obtain the search query text from the JS event object
    * -    If the debounceTimeout class property is already set, use clearTimeout to remove the timer from memory: https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/clearTimeout
    * -    Call setTimeout to start a new timer that calls below defined search() method after 300ms and store the return value in the debounceTimeout class property: https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setTimeout
-   * @param {{ target: { value: string } }} event JS event object emitted from the search input field
    */
   debounceSearch = (event) => {
   };
-
 
   // TODO: CRIO_TASK_MODULE_PRODUCTS - Implement the search() method
   /**
    * Definition for search handler
    * This is the function that is called when the user clicks on the search button or the debounce timer is executed
+   *
+   * @param {string} text 
+   *    Search bar input query text that we need to filter the displayed products on
+   *
    * -    Update filteredProducts state to show a filtered subset of the products class property based on the search text
    * -    The search filtering should be done on the name and category fields of the product
    * -    The search filtering should not take in to account the letter case of the search text or name/category fields
-   * @param {string} text Search bar input query text that we need to filter the displayed products on
    */
   search = (text) => {
   };
@@ -161,7 +186,6 @@ class Search extends React.Component {
   getProducts = async () => {
   };
 
-
   // TODO: CRIO_TASK_MODULE_PRODUCTS - Implement a lifecycle method which uses getProducts() to fetch data and update state if user's logged in, after the component is loaded
   /**
    * Function that runs when component has loaded
@@ -169,20 +193,28 @@ class Search extends React.Component {
    * This is a good place to check and set a state flag for whether the user is logged in so we can use it for conditional rendering later on in render()
    */
 
-  // TODO: CRIO_TASK_MODULE_PRODUCTS - If not logged in, clicking on "Add to Cart" should redirect user to the login page
-  getProductElement = ((product) => {
-    return (<Col xs={24} sm={12} xl={6} key={product._id}>
-      <Product
-        product={product}
-        addToCart={() => {
-          if (this.state.loggedIn) {
-            // message.info("Cart functionality not implemented yet")
-          }
-        }}
-      />
-    </Col>
-    )
-  });
+  // TODO: CRIO_TASK_MODULE_PRODUCTS - Implement getProductElement(). If not logged in, clicking on "Add to Cart" should redirect user to the login page
+  /**
+   * Creates the responsive view for a product item
+   * 
+   * @param {Product} product
+   * @returns {JSX}
+   *    HTML and JSX to be rendered
+   */
+  getProductElement = (product) => {
+    return (
+      <Col xs={24} sm={12} xl={6} key={product._id}>
+        <Product
+          product={product}
+          addToCart={() => {
+            if (this.state.loggedIn) {
+              message.info("Cart functionality not implemented yet")
+            }
+          }}
+        />
+      </Col>
+    );
+  };
 
   /**
    * JSX and HTML goes here
@@ -192,30 +224,38 @@ class Search extends React.Component {
   render() {
     return (
       <>
-        {/* TODO: CRIO_TASK_MODULE_PRODUCTS - Display search bar in the header for Products page */}
+        {/* Display Header with Search bar */}
         <Header history={this.props.history}>
+          {/* TODO: CRIO_TASK_MODULE_PRODUCTS - Display search bar in the header for Products page */}
+
         </Header>
 
+        {/* Use Antd Row/Col components to display products and cart as columns in the same row*/}
         <Row>
+          {/* Display products */}
           <Col
             xs={{ span: 24 }}
           >
             <div className="search-container ">
+              {/* Display each product item wrapped in a Col component */}
               <Row>
-                {(this.products.length !== 0) ? (
-                  this.state.filteredProducts.map((product) => (
+                {this.products.length !== 0 ? (
+                  this.state.filteredProducts.map((product) =>
                     this.getProductElement(product)
-                  ))
+                  )
+                ) : this.state.loading ? (
+                  <div className="loading-text">Loading products...</div>
                 ) : (
-                    this.state.loading ? (
-                      <div className="loading-text">Loading products...</div>
-                    ) : (<div className="loading-text">No products to list</div>)
-                  )}
+                  <div className="loading-text">No products to list</div>
+                )}
               </Row>
             </div>
           </Col>
+
+          {/* Display cart */}
         </Row>
 
+        {/* Display the footer */}
         <Footer></Footer>
       </>
     );

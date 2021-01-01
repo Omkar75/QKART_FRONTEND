@@ -32,8 +32,11 @@ export default class Header extends React.Component {
         <div className="header-title" onClick={this.root}>
           <img src="icon.svg" alt="QKart-icon"></img>
         </div>
-        {/* TODO: CRIO_TASK_MODULE_PRODUCTS - Display any child element */}
 
+        {/* TODO: CRIO_TASK_MODULE_PRODUCTS - Display any child element passed to the component*/}
+
+
+        {/* Display links based on if the user's logged in or not */}
         <div className="header-action">
           {localStorage.getItem("username") ? (
             <>
@@ -42,28 +45,32 @@ export default class Header extends React.Component {
                 alt="profile"
                 className="profile-image"
               ></img>
+
               <div className="header-info">
                 {localStorage.getItem("username")}
               </div>
+
               <Button type="primary" onClick={this.logout}>
                 Logout
               </Button>
             </>
           ) : (
-              <>
-                <div className="header-link" onClick={this.explore}>
-                  Explore
+            <>
+              <div className="header-link" onClick={this.explore}>
+                Explore
               </div>
-                <div className="header-link" onClick={this.login}>
-                  Login
+
+              <div className="header-link" onClick={this.login}>
+                Login
               </div>
-                <div className="header-link">
-                  <Button type="primary" onClick={this.register}>
-                    Register
+
+              <div className="header-link">
+                <Button type="primary" onClick={this.register}>
+                  Register
                 </Button>
-                </div>
-              </>
-            )}
+              </div>
+            </>
+          )}
         </div>
       </div>
     );

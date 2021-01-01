@@ -1,4 +1,3 @@
-
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Button, Card, Rate } from "antd";
 import React from "react";
@@ -19,25 +18,41 @@ import "./Product.css";
  * Product image and product title are primary information
  * Secondary information to be displayed includes cost, rating and category
  * We also need a button to add the product to cart from the product listing
- * @param {Product} product The product object to be displayed
- * @param {function} addToCart Function to call when user clicks on a Product card's 'Add to cart' button
- * @returns {JSX} HTML and JSX to be rendered
+ *
+ * @param {Product} props.product
+ *    The product object to be displayed
+ * @param {function} props.addToCart
+ *    Function to call when user clicks on a Product card's 'Add to cart' button
+ * @returns {JSX}
+ *    HTML and JSX to be rendered
  */
 export default function Product(props) {
   return (
+    // Use Antd Card component to create a card-like view for individual products
     <Card className="product" hoverable>
+      {/* Display product image */}
       <img className="product-image" alt="product" src={props.product.image} />
+
+      {/* Display product information */}
       <div className="product-info">
+        {/* Display product name and category */}
         <div className="product-info-text">
           <div className="product-title">{props.product.name}</div>
           <div className="product-category">{`Category: ${props.product.category}`}</div>
         </div>
+
+        {/* Display utility elements */}
         <div className="product-info-utility">
+          {/* Display product cost */}
           <div className="product-cost">{`₹${props.product.cost}`}</div>
+
+          {/* Display star rating for the product on a scale of 5 */}
           <div>
             {/* TODO: CRIO_TASK_MODULE_PRODUCTS - Display star rating for products */}
 
           </div>
+
+          {/* Display the "Add to Cart" button */}
           <Button
             shape="round"
             type="primary"
