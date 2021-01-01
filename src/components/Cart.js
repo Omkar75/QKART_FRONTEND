@@ -23,13 +23,20 @@ import "./Cart.css";
 
 /**
  * @class Cart component handles functionality for the display and manipulation of the customer's shopping cart
+ * 
  * Contains the following fields
- * @property {Product[]} props.products List of all available products (that the cart items can be from)
- * @property {{ push: function }} props.history To navigate and redirect the user to different routes or pages
- * @property {string} props.token Oauth token for authentication for API calls
- * @property {boolean|undefined} props.checkout Denotes if the Cart component is created in the Checkout component 
- * @property {CartItem[]} state.items List of items currently in cart
- * @property {boolean} state.loading Indicates background action pending completion. When true, further UI actions might be blocked
+ * @property {Product[]} props.products 
+ *    List of all available products (that the cart items can be from)
+ * @property {{ push: function }} props.history 
+ *    To navigate and redirect the user to different routes or pages
+ * @property {string} props.token 
+ *    Oauth token for authentication for API calls
+ * @property {boolean|undefined} props.checkout 
+ *    Denotes if the Cart component is created in the Checkout component
+ * @property {CartItem[]} state.items 
+ *    List of items currently in cart
+ * @property {boolean} state.loading 
+ *    Indicates background action pending completion. When true, further UI actions might be blocked
  */
 export default class Cart extends React.Component {
   constructor() {
@@ -42,14 +49,19 @@ export default class Cart extends React.Component {
 
   /**
    * Check the response of the API call to be valid and handle any failures along the way
+   *
+   * @param {boolean} errored
+   *    Represents whether an error occurred in the process of making the API call itself
+   * @param {{ productId: string, qty: number }|{ success: boolean, message?: string }} response
+   *    The response JSON object which may contain further success or error messages
+   * @returns {boolean}
+   *    Whether validation has passed or not
+   *
    * If the API call itself encounters an error, errored flag will be true.
    * If the backend returns an error, then success field will be false and message field will have a string with error details to be displayed.
    * When there is an error in the API call itself, display a generic error message and return false.
    * When there is an error returned by backend, display the given message field and return false.
    * When there is no error and API call is successful, return true.
-   * @param {boolean} errored Represents whether an error occurred in the process of making the API call itself
-   * @param {CartItem[]|{ success: boolean, message?: string }} response The response JSON object which may contain further success or error messages
-   * @returns {boolean} Whether validation has passed or not
    */
   validateResponse = (errored, response) => {
     if (errored) {
@@ -58,15 +70,21 @@ export default class Cart extends React.Component {
       );
       return false;
     }
+
     if (response.message) {
       message.error(response.message);
       return false;
     }
+
     return true;
   };
 
   /**
    * Perform the API call to fetch the user's cart and return the response
+   *
+   * @returns {{ productId: string, qty: number }|{ success: boolean, message?: string }}
+   *    The response JSON object
+   *
    * -    Set the loading state variable to true
    * -    Perform the API call via a fetch call: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
    * -    The call must be made asynchronously using Promises or async/await
@@ -96,14 +114,15 @@ export default class Cart extends React.Component {
    *      "success": false,
    *      "message": "Protected route, Oauth2 Bearer token not found"
    * }
-   * @returns {CartItem[]|undefined} The response JSON object
    */
   getCart = async () => {
     let response = {};
     let errored = false;
+
     this.setState({
       loading: true,
     });
+
     try {
       response = await (
         await fetch(`${config.endpoint}/cart`, {
@@ -113,15 +132,26 @@ export default class Cart extends React.Component {
     } catch (e) {
       errored = true;
     }
+
     this.setState({
       loading: false,
     });
+
     if (this.validateResponse(errored, response)) {
       return response;
     }
   };
 
+  /**
    * Perform the API call to add or update items in the user's cart
+   *
+   * @param {string} productId
+   *    ID of the product that is to be added or updated in cart
+   * @param {number} qty
+   *    How many of the product should be in the cart
+   * @param {boolean} fromAddToCartButton
+   *    If this function was triggered from the product card's "Add to Cart" button
+   *
    * -    If the user is trying to add from the product card and the product already exists in cart, show an error message
    * -    Set the loading state variable to true
    * -    Perform the API call via a fetch call: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
@@ -145,9 +175,7 @@ export default class Cart extends React.Component {
    *      "success": false,
    *      "message": "Product doesn't exist"
    * }
-   * @param {string} productId ID of the product that is to be added or updated in cart
-   * @param {number} qty How many of the product should be in the cart
-   * @param {boolean} fromAddToCartButton If this function was triggered from the product card button
+   */
   pushToCart = async (productId, qty, fromAddToCartButton) => {
     if (fromAddToCartButton) {
       for (const item of this.state.items) {
@@ -159,11 +187,14 @@ export default class Cart extends React.Component {
         }
       }
     }
+
     let response = {};
     let errored = false;
+
     this.setState({
       loading: true,
     });
+
     try {
       response = await (
         await fetch(`${config.endpoint}/cart`, {
@@ -172,13 +203,16 @@ export default class Cart extends React.Component {
     } catch (e) {
       errored = true;
     }
+
     this.setState({
       loading: false,
     });
+
     if (this.validateResponse(errored, response)) {
     }
   };
 
+  /**
    * Function to get/refresh list of items in cart from backend and update state variable
    * -    Call the previously defined getCart() function asynchronously and capture the returned value in a variable
    * -    If the returned value exists,
@@ -186,8 +220,10 @@ export default class Cart extends React.Component {
    * -    If the cart is being displayed from the checkout page, or the cart is empty,
    *      -   Display an error message
    *      -   Redirect the user to the products listing page
+   */
   refreshCart = async () => {
     const cart = await this.getCart();
+    
     if (cart) {
       this.setState({
         items: cart.map((item) => ({
@@ -199,28 +235,41 @@ export default class Cart extends React.Component {
       });
     }
 
-  
   };
 
+  /**
    * Function to calculate the total cost of items in cart
    * -    Iterate over objects and return the total cost by taking an cost of item in cart, multiplying it with its quantity and cumulatively adding to a total
-   * @returns {number} The final total cost of the user's shopping cart
+   *
+   * @returns {number}
+   *  The final total cost of the user's shopping cart
+   */
   calculateTotal = () => {
     return this.state.items.length
       ? this.state.items.reduce(
-        (total, item) => total + item.product.cost * item.qty,
-        0
-      )
+          (total, item) => total + item.product.cost * item.qty,
+          0
+        )
       : 0;
   };
 
+  /**
    * Function that runs when component has loaded
    * This is the function that is called when the page loads the cart component
    * We can call refreshCart() here to get the cart items
+   */
 
-  getQuantityElement = ((item) => {
-  });
+  /**
+   * Creates the view for the product quantity added to cart
+   *
+   * @param {CartItem} item
+   * @returns {JSX}
+   *    HTML and JSX to be rendered
+   */
+  getQuantityElement = (item) => {
+  };
 
+  /**
    * JSX and HTML goes here
    * To iterate over the cart items list and display each item as a component
    * -    Should display name, image, cost
@@ -228,8 +277,8 @@ export default class Cart extends React.Component {
    * Total cost of all items needs to be displayed as well
    * We also need a button to take the user to the checkout page
    * If cart items do not exist, show appropriate text
+   */
   render() {
-
     return (
       <div
         className={["cart", this.props.checkout ? "checkout" : ""].join(" ")}
@@ -243,10 +292,12 @@ export default class Cart extends React.Component {
                   alt={item.product.name}
                   src={item.product.image}
                 />
+
                 <div className="cart-parent">
                   <div className="cart-item-info">
                     <div>
                       <div className="cart-item-name">{item.product.name}</div>
+
                       <div className="cart-item-category">
                         {item.product.category}
                       </div>
@@ -256,30 +307,36 @@ export default class Cart extends React.Component {
                       ₹{item.product.cost * item.qty}
                     </div>
                   </div>
+
                   <div className="cart-item-qty">
                   </div>
                 </div>
               </Card>
             ))}
+
             <div className="total">
               <h2>Total</h2>
+
               <div className="total-item">
                 <div>Products</div>
                 <div>
-                  {this.state.items.reduce(function (sum, tax) {
-                    return sum + tax.qty;
+                  {this.state.items.reduce(function (sum, item) {
+                    return sum + item.qty;
                   }, 0)}
                 </div>
               </div>
+
               <div className="total-item">
                 <div>Sub Total</div>
                 <div>₹{this.calculateTotal()}</div>
               </div>
+
               <div className="total-item">
                 <div>Shipping</div>
                 <div>N/A</div>
               </div>
               <hr></hr>
+
               <div className="total-item">
                 <div>Total</div>
                 <div>₹{this.calculateTotal()}</div>
@@ -287,13 +344,12 @@ export default class Cart extends React.Component {
             </div>
           </>
         ) : (
-            <div className="loading-text">
-              Add an item to cart and it will show up here
-              <br />
-              <br />
-            </div>
-          )
-        }
+          <div className="loading-text">
+            Add an item to cart and it will show up here
+            <br />
+            <br />
+          </div>
+        )}
 
 
         {this.state.loading && (
@@ -301,7 +357,6 @@ export default class Cart extends React.Component {
             <Spin size="large" />
           </div>
         )}
-
       </div>
     );
   }
