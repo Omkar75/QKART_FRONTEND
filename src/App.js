@@ -7,7 +7,7 @@ import Register from "./components/Register";
 
 export const config = {
   // TODO: Add your workspace iP here
-  endpoint: "http://<workspace-ip>:8082/api/v1",
+  endpoint: "http://<workspace-ip>:8082/api/v1"
 };
 
 export default function App(props) {
@@ -19,9 +19,6 @@ export default function App(props) {
 
   return (
     <div className="App">
-
-
-
 
 
         <Route path="/">
