@@ -23,13 +23,20 @@ import "./Cart.css";
 
 /**
  * @class Cart component handles functionality for the display and manipulation of the customer's shopping cart
+ * 
  * Contains the following fields
- * @property {Product[]} props.products List of all available products (that the cart items can be from)
- * @property {{ push: function }} props.history To navigate and redirect the user to different routes or pages
- * @property {string} props.token Oauth token for authentication for API calls
- * @property {boolean|undefined} props.checkout Denotes if the Cart component is created in the Checkout component 
- * @property {CartItem[]} state.items List of items currently in cart
- * @property {boolean} state.loading Indicates background action pending completion. When true, further UI actions might be blocked
+ * @property {Product[]} props.products 
+ *    List of all available products (that the cart items can be from)
+ * @property {{ push: function }} props.history 
+ *    To navigate and redirect the user to different routes or pages
+ * @property {string} props.token 
+ *    Oauth token for authentication for API calls
+ * @property {boolean|undefined} props.checkout 
+ *    Denotes if the Cart component is created in the Checkout component
+ * @property {CartItem[]} state.items 
+ *    List of items currently in cart
+ * @property {boolean} state.loading 
+ *    Indicates background action pending completion. When true, further UI actions might be blocked
  */
 export default class Cart extends React.Component {
   constructor() {
@@ -42,14 +49,19 @@ export default class Cart extends React.Component {
 
   /**
    * Check the response of the API call to be valid and handle any failures along the way
+   *
+   * @param {boolean} errored
+   *    Represents whether an error occurred in the process of making the API call itself
+   * @param {{ productId: string, qty: number }|{ success: boolean, message?: string }} response
+   *    The response JSON object which may contain further success or error messages
+   * @returns {boolean}
+   *    Whether validation has passed or not
+   *
    * If the API call itself encounters an error, errored flag will be true.
    * If the backend returns an error, then success field will be false and message field will have a string with error details to be displayed.
    * When there is an error in the API call itself, display a generic error message and return false.
    * When there is an error returned by backend, display the given message field and return false.
    * When there is no error and API call is successful, return true.
-   * @param {boolean} errored Represents whether an error occurred in the process of making the API call itself
-   * @param {CartItem[]|{ success: boolean, message?: string }} response The response JSON object which may contain further success or error messages
-   * @returns {boolean} Whether validation has passed or not
    */
   validateResponse = (errored, response) => {
     if (errored) {
@@ -58,15 +70,21 @@ export default class Cart extends React.Component {
       );
       return false;
     }
+
     if (response.message) {
       message.error(response.message);
       return false;
     }
+
     return true;
   };
 
   /**
    * Perform the API call to fetch the user's cart and return the response
+   *
+   * @returns {{ productId: string, qty: number }|{ success: boolean, message?: string }}
+   *    The response JSON object
+   *
    * -    Set the loading state variable to true
    * -    Perform the API call via a fetch call: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
    * -    The call must be made asynchronously using Promises or async/await
@@ -96,14 +114,15 @@ export default class Cart extends React.Component {
    *      "success": false,
    *      "message": "Protected route, Oauth2 Bearer token not found"
    * }
-   * @returns {CartItem[]|undefined} The response JSON object
    */
   getCart = async () => {
     let response = {};
     let errored = false;
+
     this.setState({
       loading: true,
     });
+
     try {
       // TODO: CRIO_TASK_MODULE_CART - Pass the OAuth token (check supported props in Cart class documentation) in the fetch API call as an Authorization header
       response = await (
@@ -114,9 +133,11 @@ export default class Cart extends React.Component {
     } catch (e) {
       errored = true;
     }
+
     this.setState({
       loading: false,
     });
+
     if (this.validateResponse(errored, response)) {
       return response;
     }
@@ -124,6 +145,14 @@ export default class Cart extends React.Component {
 
   /**
    * Perform the API call to add or update items in the user's cart
+   *
+   * @param {string} productId
+   *    ID of the product that is to be added or updated in cart
+   * @param {number} qty
+   *    How many of the product should be in the cart
+   * @param {boolean} fromAddToCartButton
+   *    If this function was triggered from the product card's "Add to Cart" button
+   *
    * -    If the user is trying to add from the product card and the product already exists in cart, show an error message
    * -    Set the loading state variable to true
    * -    Perform the API call via a fetch call: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
@@ -147,9 +176,6 @@ export default class Cart extends React.Component {
    *      "success": false,
    *      "message": "Product doesn't exist"
    * }
-   * @param {string} productId ID of the product that is to be added or updated in cart
-   * @param {number} qty How many of the product should be in the cart
-   * @param {boolean} fromAddToCartButton If this function was triggered from the product card button
    */
   pushToCart = async (productId, qty, fromAddToCartButton) => {
     if (fromAddToCartButton) {
@@ -162,11 +188,14 @@ export default class Cart extends React.Component {
         }
       }
     }
+
     let response = {};
     let errored = false;
+
     this.setState({
       loading: true,
     });
+
     try {
       // TODO: CRIO_TASK_MODULE_CART - Make an authenticated POST request to "/cart". JSON with properties - productId, qty are to be sent in the request body
       response = await (
@@ -176,9 +205,11 @@ export default class Cart extends React.Component {
     } catch (e) {
       errored = true;
     }
+
     this.setState({
       loading: false,
     });
+
     if (this.validateResponse(errored, response)) {
     }
   };
@@ -191,6 +222,7 @@ export default class Cart extends React.Component {
    */
   refreshCart = async () => {
     const cart = await this.getCart();
+    
     if (cart) {
       this.setState({
         items: cart.map((item) => ({
@@ -202,20 +234,21 @@ export default class Cart extends React.Component {
       });
     }
 
-  
   };
 
   /**
    * Function to calculate the total cost of items in cart
    * -    Iterate over objects and return the total cost by taking an cost of item in cart, multiplying it with its quantity and cumulatively adding to a total
-   * @returns {number} The final total cost of the user's shopping cart
+   *
+   * @returns {number}
+   *  The final total cost of the user's shopping cart
    */
   calculateTotal = () => {
     return this.state.items.length
       ? this.state.items.reduce(
-        (total, item) => total + item.product.cost * item.qty,
-        0
-      )
+          (total, item) => total + item.product.cost * item.qty,
+          0
+        )
       : 0;
   };
 
@@ -227,8 +260,15 @@ export default class Cart extends React.Component {
    */
 
   // TODO: CRIO_TASK_MODULE_CART - Implement getQuantityElement(). If props.checkout is not set, display a Input field.
-  getQuantityElement = ((item) => {
-  });
+  /**
+   * Creates the view for the product quantity added to cart
+   *
+   * @param {CartItem} item
+   * @returns {JSX}
+   *    HTML and JSX to be rendered
+   */
+  getQuantityElement = (item) => {
+  };
 
   /**
    * JSX and HTML goes here
@@ -240,24 +280,30 @@ export default class Cart extends React.Component {
    * If cart items do not exist, show appropriate text
    */
   render() {
-
     return (
       <div
         className={["cart", this.props.checkout ? "checkout" : ""].join(" ")}
       >
+        {/* Display cart items or a text banner if cart is empty */}
         {this.state.items.length ? (
           <>
+            {/* Display a card view for each product in the cart */}
             {this.state.items.map((item) => (
               <Card className="cart-item" key={item.productId}>
+                {/* Display product image */}
                 <img
                   className="cart-item-image"
                   alt={item.product.name}
                   src={item.product.image}
                 />
+
+                {/* Display product details*/}
                 <div className="cart-parent">
+                  {/* Display product name, category and total cost */}
                   <div className="cart-item-info">
                     <div>
                       <div className="cart-item-name">{item.product.name}</div>
+
                       <div className="cart-item-category">
                         {item.product.category}
                       </div>
@@ -267,6 +313,8 @@ export default class Cart extends React.Component {
                       ₹{item.product.cost * item.qty}
                     </div>
                   </div>
+
+                  {/* Display field to update quantity or a static quantity text */}
                   <div className="cart-item-qty">
                     {/* TODO: CRIO_TASK_MODULE_CART - Implement getQuantityElement() method */}
                     {/* {this.getQuantityElement(item)} */}
@@ -274,25 +322,35 @@ export default class Cart extends React.Component {
                 </div>
               </Card>
             ))}
+
+            {/* Display cart summary */}
             <div className="total">
               <h2>Total</h2>
+
+              {/* Display net quantity of items in the cart */}
               <div className="total-item">
                 <div>Products</div>
                 <div>
-                  {this.state.items.reduce(function (sum, tax) {
-                    return sum + tax.qty;
+                  {this.state.items.reduce(function (sum, item) {
+                    return sum + item.qty;
                   }, 0)}
                 </div>
               </div>
+
+              {/* Display the total cost of items in the cart */}
               <div className="total-item">
                 <div>Sub Total</div>
                 <div>₹{this.calculateTotal()}</div>
               </div>
+
+              {/* Display shipping cost */}
               <div className="total-item">
                 <div>Shipping</div>
                 <div>N/A</div>
               </div>
               <hr></hr>
+
+              {/* Display the sum user has to pay while checking out */}
               <div className="total-item">
                 <div>Total</div>
                 <div>₹{this.calculateTotal()}</div>
@@ -300,22 +358,23 @@ export default class Cart extends React.Component {
             </div>
           </>
         ) : (
-            <div className="loading-text">
-              Add an item to cart and it will show up here
-              <br />
-              <br />
-            </div>
-          )
-        }
+          // Display a static text banner if cart is empty
+          <div className="loading-text">
+            Add an item to cart and it will show up here
+            <br />
+            <br />
+          </div>
+        )}
 
+        {/* Display a "Checkout" button */}
         {/* TODO: CRIO_TASK_MODULE_CART - If props.checkout is not set, display a checkout button*/}
 
+        {/* Display a loading icon if the "loading" state variable is true */}
         {this.state.loading && (
           <div className="loading-overlay">
             <Spin size="large" />
           </div>
         )}
-
       </div>
     );
   }
