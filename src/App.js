@@ -4,10 +4,10 @@ import { Route, Switch, useLocation } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import ipConfig from "./ipConfig.json";
 
 export const config = {
-  // TODO: Add your workspace iP here
-  endpoint: "http://<workspace-ip>:8082/api/v1"
+  endpoint: `http://${ipConfig.workspaceIp}:8082/api/v1`,
 };
 
 export default function App(props) {

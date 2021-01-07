@@ -1,3 +1,5 @@
+
+# Install project dependencies
 rm -rf ~/node_modules
 rm -rf node_modules
 rm -rf ~/.npm 
