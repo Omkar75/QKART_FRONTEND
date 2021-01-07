@@ -7,10 +7,10 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Search from "./components/Search";
 import Thanks from "./components/Thanks";
+import ipConfig from "./ipConfig.json";
 
 export const config = {
-  // TODO: Add your workspace iP here
-  endpoint: "http://<workspace-ip>:8082/api/v1"
+  endpoint: `http://${ipConfig.workspaceIp}:8082/api/v1`,
 };
 
 export default function App(props) {
