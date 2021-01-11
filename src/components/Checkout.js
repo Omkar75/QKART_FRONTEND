@@ -424,7 +424,6 @@ class Checkout extends React.Component {
     }
   };
 
-  // TODO: CRIO_TASK_MODULE_CHECKOUT - Implement the order() method
   /**
    * Function that is called when the user clicks on the place order button
    * -    If the user's wallet balance is less than the total cost of the user's cart, then display an appropriate error message
@@ -487,7 +486,7 @@ class Checkout extends React.Component {
           <Row>
             {/* TODO: CRIO_TASK_MODULE_CHECKOUT - Cart should be shown on top of  Shipping and Pricing blocks in "xs" devices */}
             {/* Display checkout instructions */}
-            {/* <Col xs={{ span: 24 }} md={{ span: 18 }}> */}
+            <Col xs={{ span: 24 }} md={{ span: 18 }}>
               <div className="checkout-shipping">
                 <h1 style={{ marginBottom: "-10px" }}>Shipping</h1>
 
@@ -604,7 +603,7 @@ class Checkout extends React.Component {
             </Col>
 
             {/* Display the cart */}
-            {/* <Col xs={{ span: 24 }} md={6} className="checkout-cart"> */}
+            <Col xs={{ span: 24 }} md={6} className="checkout-cart">
               <div>
                 {this.state.products.length && (
                   <Cart
