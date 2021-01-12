@@ -424,6 +424,7 @@ class Checkout extends React.Component {
     }
   };
 
+  // TODO: CRIO_TASK_MODULE_CHECKOUT - Implement the order() method
   /**
    * Function that is called when the user clicks on the place order button
    * -    If the user's wallet balance is less than the total cost of the user's cart, then display an appropriate error message
