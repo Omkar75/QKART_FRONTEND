@@ -603,7 +603,7 @@ class Checkout extends React.Component {
             </Col>
 
             {/* Display the cart */}
-            <Col xs={{ span: 24 }} md={6} className="checkout-cart">
+            </Col><Col xs={{ span: 24 }} md={6} className="checkout-cart">
               <div>
                 {this.state.products.length && (
                   <Cart
