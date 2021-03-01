@@ -7,8 +7,8 @@ setup.sh merge=copy-merge
 __CRIO__/metadata.json merge=copy-merge
 
 # backend/
-./backend/db/products.db merge=copy-merge
-./backend/routes/auth.js merge=copy-merge
+backend/db/products.db merge=copy-merge
+backend/routes/auth.js merge=copy-merge
 
 
 # public/
