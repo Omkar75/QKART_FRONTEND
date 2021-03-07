@@ -19,20 +19,20 @@ router.post('/register', (req, res) => {
                 message: 'Username already exists'
             });
         }
-        if (req.body.username.length < 6 || req.body.username.length > 32) {
-            return res.status(400).json({
-                success: false,
-                message:
-                    'Username must be between 6 and 32 characters in length'
-            });
-        }
-        if (req.body.password.length < 6 || req.body.password.length > 32) {
-            return res.status(400).json({
-                success: false,
-                message:
-                    'Password must be between 6 and 32 characters in length'
-            });
-        }
+        // if (req.body.username.length < 6 || req.body.username.length > 32) {
+        //     return res.status(400).json({
+        //         success: false,
+        //         message:
+        //             'Username must be between 6 and 32 characters in length'
+        //     });
+        // }
+        // if (req.body.password.length < 6 || req.body.password.length > 32) {
+        //     return res.status(400).json({
+        //         success: false,
+        //         message:
+        //             'Password must be between 6 and 32 characters in length'
+        //     });
+        // }
         users.insert({
             username: req.body.username,
             password: sha256(req.body.password),
