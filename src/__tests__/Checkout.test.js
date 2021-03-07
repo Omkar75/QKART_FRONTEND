@@ -46,11 +46,19 @@ beforeAll(() => {
                                 resolveNested([exampleProduct]);
                             }
                             if (url.split("/")[url.split("/").length - 1] === "cart") {
-                                if (options.method === "GET") {
-                                    resolveNested([exampleCartItem]);
-                                } else if (options.method === "POST") {
-                                    exampleCartItem.qty = JSON.parse(options.body).qty;
-                                    resolveNested({ success: true });
+                                if (
+                                  options.method === "GET" ||
+                                  options.method === "get"
+                                ) {
+                                  resolveNested([exampleCartItem]);
+                                } else if (
+                                  options.method === "POST" ||
+                                  options.method === "post"
+                                ) {
+                                  exampleCartItem.qty = JSON.parse(
+                                    options.body
+                                  ).qty;
+                                  resolveNested({ success: true });
                                 }
                             }
                             if (url.split("/")[url.split("/").length - 1] === "addresses") {
