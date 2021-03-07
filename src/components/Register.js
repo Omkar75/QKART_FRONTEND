@@ -32,40 +32,6 @@ class Register extends React.Component {
   }
 
   /**
-   * Perform the API call over the network and return the response
-   *
-   * @returns {{ success: boolean }|undefined}
-   *     The response JSON object
-   *
-   * -    Set the loading state variable to true
-   * -    Perform the API call via a fetch call: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
-   * -    The call must be made asynchronously using Promises or async/await
-   * -    The call must handle any errors thrown from the fetch call
-   * -    Parse the result as JSON
-   * -    Set the loading state variable to false once the call has completed
-   * -    *** If in Milestone 1 ***,
-   * -      return the response JSON object
-   * -    *** If in Milestone 2 ***,  
-   * -      Call the validateResponse(errored, response) function defined previously
-   * -        If response passes validation, return the response object
-   *
-   * Example for successful response from backend for the API call:
-   * HTTP 200
-   * {
-   *      "success": true,
-   * }
-   *
-   * Example for failed response from backend for the API call:
-   * HTTP 400
-   * {
-   *      "success": false,
-   *      "message": "Username is already taken"
-   * }
-   */
-  performAPICall = async () => {
-  };
-
-  /**
    * Definition for register handler
    * This is the function that is called when the user clicks on the register button or submits the register form
    *    - Display an alert message, "Register logic not implemented yet"
