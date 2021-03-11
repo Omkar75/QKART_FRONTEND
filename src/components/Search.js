@@ -48,11 +48,11 @@ class Search extends React.Component {
   /**
    * Check the response of the API call to be valid and handle any failures along the way
    *
-   * @param {boolean} errored 
+   * @param {boolean} errored
    *    Represents whether an error occurred in the process of making the API call itself
-   * @param {Product[]|{ success: boolean, message: string }} response 
+   * @param {Product[]|{ success: boolean, message: string }} response
    *    The response JSON object which may contain further success or error messages
-   * @returns {boolean} 
+   * @returns {boolean}
    *    Whether validation has passed or not
    *
    * If the API call itself encounters an error, errored flag will be true.
@@ -80,7 +80,7 @@ class Search extends React.Component {
   /**
    * Perform the API call over the network and return the response
    *
-   * @returns {Product[]|undefined} 
+   * @returns {Product[]|undefined}
    *    The response JSON object
    *
    * -    Set the loading state variable to true
@@ -143,38 +143,6 @@ class Search extends React.Component {
     }
   };
 
-  // TODO: CRIO_TASK_MODULE_PRODUCTS - Implement the debounceSearch() method
-  /**
-   * Definition for debounce handler
-   * This is the function that is called whenever the user types or changes the text in the searchbar field
-   * We need to make sure that the search handler isn't constantly called for every key press, so we debounce the logic
-   * i.e. we make sure that only after a specific amount of time passes after the final keypress (with no other keypress event happening in between), we run the required function
-   *
-   * @param {{ target: { value: string } }} event 
-   *    JS event object emitted from the search input field
-   *
-   * -    Obtain the search query text from the JS event object
-   * -    If the debounceTimeout class property is already set, use clearTimeout to remove the timer from memory: https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/clearTimeout
-   * -    Call setTimeout to start a new timer that calls below defined search() method after 300ms and store the return value in the debounceTimeout class property: https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setTimeout
-   */
-  debounceSearch = (event) => {
-  };
-
-  // TODO: CRIO_TASK_MODULE_PRODUCTS - Implement the search() method
-  /**
-   * Definition for search handler
-   * This is the function that is called when the user clicks on the search button or the debounce timer is executed
-   *
-   * @param {string} text 
-   *    Text user types in the search bar. To filter the displayed products based on this text.
-   *
-   * -    Update filteredProducts state to show a filtered **subset of the products class property** based on the search text
-   * -    The search filtering should be done on the name and category fields of the product
-   * -    The search filtering should not take in to account the letter case of the search text or name/category fields
-   */
-  search = (text) => {
-  };
-
   // TODO: CRIO_TASK_MODULE_PRODUCTS - Implement the getProducts() method
   /**
    * Function to fetch list of products from backend and update state variable
@@ -193,12 +161,42 @@ class Search extends React.Component {
    * This is a good place to check and set a state flag for whether the user is logged in so we can use it for conditional rendering later on in render()
    */
 
+  // TODO: CRIO_TASK_MODULE_PRODUCTS - Implement the search() method
+  /**
+   * Definition for search handler
+   * This is the function that is called when the user clicks on the search button or the debounce timer is executed
+   *
+   * @param {string} text
+   *    Text user types in the search bar. To filter the displayed products based on this text.
+   *
+   * -    Update filteredProducts state to show a filtered **subset of the products class property** based on the search text
+   * -    The search filtering should be done on the name and category fields of the product
+   * -    The search filtering should not take in to account the letter case of the search text or name/category fields
+   */
+  search = (text) => {
+  };
 
+  // TODO: CRIO_TASK_MODULE_PRODUCTS - Implement the debounceSearch() method
+  /**
+   * Definition for debounce handler
+   * This is the function that is called whenever the user types or changes the text in the searchbar field
+   * We need to make sure that the search handler isn't constantly called for every key press, so we debounce the logic
+   * i.e. we make sure that only after a specific amount of time passes after the final keypress (with no other keypress event happening in between), we run the required function
+   *
+   * @param {{ target: { value: string } }} event
+   *    JS event object emitted from the search input field
+   *
+   * -    Obtain the search query text from the JS event object
+   * -    If the debounceTimeout class property is already set, use clearTimeout to remove the timer from memory: https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/clearTimeout
+   * -    Call setTimeout to start a new timer that calls below defined search() method after 300ms and store the return value in the debounceTimeout class property: https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setTimeout
+   */
+  debounceSearch = (event) => {
+  };
 
   // TODO: CRIO_TASK_MODULE_PRODUCTS - Implement getProductElement(). If not logged in, clicking on "Add to Cart" should redirect user to the login page
   /**
    * Creates the responsive view for a product item
-   * 
+   *
    * @param {Product} product
    * @returns {JSX}
    *    HTML and JSX to be rendered
@@ -210,7 +208,7 @@ class Search extends React.Component {
           product={product}
           addToCart={() => {
             if (this.state.loggedIn) {
-              message.info("Cart functionality not implemented yet")
+              message.info("Cart functionality not implemented yet");
             }
           }}
         />
