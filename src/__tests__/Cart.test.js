@@ -27,12 +27,9 @@ beforeAll(() => {
           json: async () => {
             return new Promise((resolveNested) => {
               if (url.split("/")[url.split("/").length - 1] === "cart") {
-                if (options.method === "GET" || options.method === "get") {
+                if (options.method.toUpperCase() === "GET") {
                   resolveNested([exampleCartItem]);
-                } else if (
-                  options.method === "POST" ||
-                  options.method === "post"
-                ) {
+                } else if (options.method.toUpperCase() === "POST") {
                   exampleCartItem.qty = JSON.parse(options.body).qty;
                   resolveNested({ success: true });
                 }

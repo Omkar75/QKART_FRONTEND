@@ -28,13 +28,13 @@ import "./Search.css";
  * @property {number} debounceTimeout 
  *    Holds the return value from setTimeout() for the search bar debouncer
  * @property {Product[]} products 
- *    List of products fetched from backend
+ *    List of all the products fetched from backend
  * @property {boolean} state.loading 
  *    Indicates background action pending completion. When true, further UI actions might be blocked
  * @property {boolean} state.loggedIn 
  *    Indicated if user is logged in or not. Decides whether or not cart sidebar is shown
  * @property {Product[]} state.filteredProducts 
- *    List of products filtered by search query to display
+ *    List of products filtered by user's search query to display on website
  */
 class Search extends React.Component {
   constructor() {
@@ -167,9 +167,9 @@ class Search extends React.Component {
    * This is the function that is called when the user clicks on the search button or the debounce timer is executed
    *
    * @param {string} text 
-   *    Search bar input query text that we need to filter the displayed products on
+   *    Text user types in the search bar. To filter the displayed products based on this text.
    *
-   * -    Update filteredProducts state to show a filtered subset of the products class property based on the search text
+   * -    Update filteredProducts state to show a filtered **subset of the products class property** based on the search text
    * -    The search filtering should be done on the name and category fields of the product
    * -    The search filtering should not take in to account the letter case of the search text or name/category fields
    */
@@ -191,6 +191,8 @@ class Search extends React.Component {
    * This is the function that is called when the user lands on the Search/Products page
    * This is a good place to check and set a state flag for whether the user is logged in so we can use it for conditional rendering later on in render()
    */
+
+
 
   // TODO: CRIO_TASK_MODULE_CART - Update getProductElement(). If logged in, clicking on "Add to Cart" should add the product to user's cart
   /**
