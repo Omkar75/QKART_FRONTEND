@@ -55,15 +55,15 @@ class Register extends React.Component {
    * Check the response of the API call to be valid and handle any failures along the way
    *
    * @param {boolean}  errored
-   *    Represents whether an error occurred in the process of making the API call itself
+   *    Represents whether an error was thrown when the API call was made
    * @param {{ success: boolean, message?: string }}  response
    *    The response JSON object which may contain further success or error messages
    * @returns {boolean}
    *    Whether validation has passed or not
    *
-   * If the API call itself encounters an error, errored flag will be true.
+   * If the API call itself throws an error, errored flag will be true.
    * If the backend returns an error, then success field will be false and message field will have a string with error details to be displayed.
-   * When there is an error in the API call itself, display a generic error message and return false.
+   * When the API call throws an error, display a generic error message and return false.
    * When there is an error returned by backend, display the given message field and return false.
    * When there is no error and API call is successful, return true.
    */
