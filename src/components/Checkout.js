@@ -593,7 +593,7 @@ class Checkout extends React.Component {
               </div>
             </Col>
 
-            {/* TODO: CRIO_TASK_MODULE_CHECKOUT - Cart should be shown on top of  Shipping and Pricing blocks in "xs" devices */}
+            {/* TODO: CRIO_TASK_MODULE_CHECKOUT - Cart should be shown on top of  Shipping and Pricing blocks in "xs" and "sm" devices */}
             {/* Display the cart */}
             <Col xs={{ span: 24 }} md={6} className="checkout-cart">
               <div>
