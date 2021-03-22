@@ -422,9 +422,10 @@ class Checkout extends React.Component {
     });
 
     if (this.validateResponse(errored, response, "checkout")) {
-      if (response) {
-        // TODO: CRIO_TASK_MODULE_CHECKOUT - Display a order successful message, update user's balance in localStorage and redirect to "/thanks" page
-      }
+        // TODO: CRIO_TASK_MODULE_CHECKOUT - 
+        // 1. Display a order successful message
+        // 2. Update user's balance in localStorage
+        // 3. Redirect to "/thanks" page
     }
   };
 
@@ -436,18 +437,6 @@ class Checkout extends React.Component {
    * -    Else call the checkout() method to proceed with placing and order
    */
   order = () => {
-    if (this.state.balance < this.cartRef.current.calculateTotal()) {
-      message.error(
-        "You do not have enough balance in your wallet for this purchase"
-      );
-    } else if (
-      !this.state.addresses.length ||
-      !this.state.addresses[this.state.selectedAddressIndex]
-    ) {
-      message.error("Please select an address or add a new address to proceed");
-    } else {
-      this.checkout();
-    }
   };
 
   // TODO: CRIO_TASK_MODULE_CHECKOUT - Implement the componentDidMount() lifecycle method
@@ -526,6 +515,7 @@ class Checkout extends React.Component {
                                     {address.address}
                                   </div>
 
+                                  {/* TODO: CRIO_TASK_MODULE_CHECKOUT - Clicking on Delete button should call "deleteAddress" function with the correct argument*/}
                                   {/* Display button to delete address from user's list */}
                                   <Button
                                     type="primary"
