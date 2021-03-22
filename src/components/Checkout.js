@@ -421,8 +421,6 @@ class Checkout extends React.Component {
     });
 
     if (this.validateResponse(errored, response, "checkout")) {
-      if (response) {
-      }
     }
   };
 
@@ -433,18 +431,6 @@ class Checkout extends React.Component {
    * -    Else call the checkout() method to proceed with placing and order
    */
   order = () => {
-    if (this.state.balance < this.cartRef.current.calculateTotal()) {
-      message.error(
-        "You do not have enough balance in your wallet for this purchase"
-      );
-    } else if (
-      !this.state.addresses.length ||
-      !this.state.addresses[this.state.selectedAddressIndex]
-    ) {
-      message.error("Please select an address or add a new address to proceed");
-    } else {
-      this.checkout();
-    }
   };
 
   /**
@@ -517,7 +503,6 @@ class Checkout extends React.Component {
                                     {address.address}
                                   </div>
 
-                                  {/* Display button to delete address from user's list */}
                                   <Button
                                     type="primary"
                                   >
@@ -531,14 +516,12 @@ class Checkout extends React.Component {
                       </Row>
                     </Radio.Group>
                   ) : (
-                    // Display static text banner if no addresses are added
                     <div className="red-text checkout-row">
                       No addresses found. Please add one to proceed.
                     </div>
                   )}
 
                   <div className="checkout-row">
-                    {/* Text input field to type a new address */}
                     <div>
                       <TextArea
                         className="new-address"
@@ -553,7 +536,6 @@ class Checkout extends React.Component {
                       />
                     </div>
 
-                    {/* Button to submit address added */}
                     <div>
                       <Button type="primary" onClick={this.addAddress}>
                         Add New Address
@@ -564,7 +546,6 @@ class Checkout extends React.Component {
 
                 <br></br>
 
-                {/* Display the "Pricing" section */}
                 <div>
                   <h1 style={{ marginBottom: "-10px" }}>Pricing</h1>
 
@@ -582,7 +563,6 @@ class Checkout extends React.Component {
 
                 <br></br>
 
-                {/* Button to confirm order */}
                 <Button
                   className="ant-btn-success"
                   loading={this.state.loading}
