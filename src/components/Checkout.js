@@ -430,7 +430,7 @@ class Checkout extends React.Component {
    * -    Else if the user does not have any addresses, or has not selected an available address, then display an appropriate error message
    * -    Else call the checkout() method to proceed with placing and order
    */
-  order = () => {
+  order = async () => {
   };
 
   /**
