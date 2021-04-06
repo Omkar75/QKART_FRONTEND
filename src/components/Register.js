@@ -31,6 +31,41 @@ class Register extends React.Component {
     };
   }
 
+  // TODO: CRIO_TASK_MODULE_LOGIN - Fetch the API response
+  /**
+   * Perform the API call over the network and return the response
+   *
+   * @returns {{ success: boolean }|undefined}
+   *     The response JSON object
+   *
+   * -    Set the loading state variable to true
+   * -    Perform the API call via a fetch call: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
+   * -    The call must be made asynchronously using Promises or async/await
+   * -    The call must handle any errors thrown from the fetch call
+   * -    Parse the result as JSON
+   * -    Set the loading state variable to false once the call has completed
+   * -    *** If in Milestone 1 ***,
+   * -      return the response JSON object
+   * -    *** If in Milestone 2 ***,
+   * -      Call the validateResponse(errored, response) function defined previously
+   * -        If response passes validation, return the response object
+   *
+   * Example for successful response from backend for the API call:
+   * HTTP 200
+   * {
+   *      "success": true,
+   * }
+   *
+   * Example for failed response from backend for the API call:
+   * HTTP 400
+   * {
+   *      "success": false,
+   *      "message": "Username is already taken"
+   * }
+   */
+  performAPICall = async () => {
+  };
+
   // TODO: CRIO_TASK_MODULE_LOGIN - Implement user input validation logic
   /**
    * Validate the input values so that any bad or illegal values are not passed to the backend.
@@ -61,45 +96,30 @@ class Register extends React.Component {
    * @returns {boolean}
    *    Whether validation has passed or not
    *
-   * If the API call itself throws an error, errored flag will be true.
-   * If the backend returns an error, then success field will be false and message field will have a string with error details to be displayed.
-   * When the API call throws an error, display a generic error message and return false.
-   * When there is an error returned by backend, display the given message field and return false.
-   * When there is no error and API call is successful, return true.
-   */
-  validateResponse = (errored, response) => {
-  };
-
-  // TODO: CRIO_TASK_MODULE_LOGIN - Fetch the API response
-  /**
-   * Perform the API call over the network and return the response
    *
-   * @returns {{ success: boolean }|undefined}
-   *     The response JSON object
-   *
-   * -    Set the loading state variable to true
-   * -    Perform the API call via a fetch call: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
-   * -    The call must be made asynchronously using Promises or async/await
-   * -    The call must handle any errors thrown from the fetch call
-   * -    Parse the result as JSON
-   * -    Set the loading state variable to false once the call has completed
-   * -    Call the validateResponse(errored, response) function defined previously
-   * -    If response passes validation, return the response object
-   *
-   * Example for successful response from backend:
-   * HTTP 200
-   * {
-   *      "success": true,
-   * }
-   *
-   * Example for failed response from backend:
-   * HTTP 400
+   * If the API call itself threw an error,
+   *  - errored flag will be true.
+   * If the API call returns an error eg: 400 or 500 status code instead of 200,
+   *  - then "success" field will be "false" and "message" field will have a string with error details to be displayed.
+   * eg: HTTP 400
    * {
    *      "success": false,
    *      "message": "Username is already taken"
    * }
+   * If the API call is successful
+   *  - "success" field in API response will be true
+   *
+   *
+   * TODO
+   * 1. When API call itself threw an error,
+   *  - display a generic error message on the website and return false.
+   * 2. When there is an error message returned by backend,
+   *  - display an error message with contents of the "message" field of API response and return false.
+   * 3. When there is no error and API call is successful,
+   *  - return true.
+   *
    */
-  performAPICall = async () => {
+  validateResponse = (errored, response) => {
   };
 
   // TODO: CRIO_TASK_MODULE_LOGIN - Implement the register function
@@ -114,7 +134,7 @@ class Register extends React.Component {
    *      -   Redirect the user to the "/login" page
    */
   register = async () => {
-     this.validateInput();
+     const response = await this.performAPICall();
   };
 
   /**
