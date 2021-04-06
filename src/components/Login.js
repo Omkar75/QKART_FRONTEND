@@ -28,6 +28,40 @@ class Login extends React.Component {
     };
   }
 
+  /**
+   * Perform the API call over the network and return the response
+   *
+   * @returns {{ success: boolean, token: string, username: string, balance: number }|undefined}
+   *    The response JSON object
+   *
+   * -    Set the loading state variable to true
+   * -    Perform the API call via a fetch call: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
+   *      - The call must be made asynchronously using Promises or async/await
+   *      - The call must handle any errors thrown from the fetch call
+   *      - Parse the result as JSON
+   * -    Set the loading state variable to false once the call has completed
+   * -    Call the validateResponse(errored, response) function defined previously
+   * -    If response passes validation, return the response object
+   *
+   * Example for successful response from backend:
+   * HTTP 200
+   * {
+   *      "success": true,
+   *      "token": "testtoken",
+   *      "username": "criodo",
+   *      "balance": 5000
+   * }
+   *
+   * Example for failed response from backend:
+   * HTTP 400
+   * {
+   *      "success": false,
+   *      "message": "Password is incorrect"
+   * }
+   */
+  performAPICall = async () => {
+  };
+
 
   // TODO: CRIO_TASK_MODULE_UNDERSTANDING_BASICS - Implement the login() function to display a message, "Login logic not implemented yet"
   /**
