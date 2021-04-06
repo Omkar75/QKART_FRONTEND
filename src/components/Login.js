@@ -29,38 +29,6 @@ class Login extends React.Component {
   }
 
   /**
-   * Validate the input values so that any bad or illegal values are not passed to the backend.
-   *
-   * @returns {boolean}
-   *    Whether validation has passed or not
-   *
-   * Return false if any validation condition fails, otherwise return true.
-   * -    Check that username field is not an empty value
-   * -    Check that password field is not an empty value
-   */
-  validateInput = () => {
-  };
-
-  /**
-   * Check the response of the API call to be valid and handle any failures along the way
-   *
-   * @param {boolean} errored
-   *    Represents whether an error occurred in the process of making the API call itself
-   * @param {{ success: boolean, message?: string, token?: string, username?: string }} response
-   *    The response JSON object from API call which may contain further success or error messages
-   * @returns {boolean}
-   *    Whether validation has passed or not
-   *
-   * If the API call itself encounters an error, errored flag will be true.
-   * If the backend returns an error, then success field will be false and message field will have a string with error details to be displayed.
-   * When there is an error in the API call itself, display a generic error message and return false.
-   * When there is an error returned by backend, display the given message field and return false.
-   * When there is no error and API call is successful, return true.
-   */
-  validateResponse = (errored, response) => {
-  };
-
-  /**
    * Perform the API call over the network and return the response
    *
    * @returns {{ success: boolean, token: string, username: string, balance: number }|undefined}
@@ -92,6 +60,38 @@ class Login extends React.Component {
    * }
    */
   performAPICall = async () => {
+  };
+
+  /**
+   * Validate the input values so that any bad or illegal values are not passed to the backend.
+   *
+   * @returns {boolean}
+   *    Whether validation has passed or not
+   *
+   * Return false if any validation condition fails, otherwise return true.
+   * -    Check that username field is not an empty value
+   * -    Check that password field is not an empty value
+   */
+  validateInput = () => {
+  };
+
+  /**
+   * Check the response of the API call to be valid and handle any failures along the way
+   *
+   * @param {boolean} errored
+   *    Represents whether an error occurred in the process of making the API call itself
+   * @param {{ success: boolean, message?: string, token?: string, username?: string }} response
+   *    The response JSON object from API call which may contain further success or error messages
+   * @returns {boolean}
+   *    Whether validation has passed or not
+   *
+   * If the API call itself encounters an error, errored flag will be true.
+   * If the backend returns an error, then success field will be false and message field will have a string with error details to be displayed.
+   * When there is an error in the API call itself, display a generic error message and return false.
+   * When there is an error returned by backend, display the given message field and return false.
+   * When there is no error and API call is successful, return true.
+   */
+  validateResponse = (errored, response) => {
   };
 
   /**
