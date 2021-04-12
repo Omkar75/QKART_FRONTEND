@@ -153,7 +153,7 @@ describe('Test curl commmand for register', () => {
     });
 
     test('Content-type header is set to application/json', () => {
-        const headerPattern = /(?<=-H\s*)'Content-Type:\s*application\/json\s*'/
+        const headerPattern = /(?<=-H\s*).Content-Type:\s*application\/json\s*./i;
         const isJSON = headerPattern.test(curl);
         expect(isJSON).toBe(true);
     });
