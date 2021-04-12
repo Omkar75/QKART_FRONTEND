@@ -104,7 +104,7 @@ describe('Test curl commmand for login', () => {
         expect(isPOST).toBe(true);
     });
 
-    test.only('Content-type header is set to application/json', () => {
+    test('Content-type header is set to application/json', () => {
         const headerPattern = /(?<=-H\s*).Content-Type:\s*application\/json\s*./i
         const isJSON = headerPattern.test(curl);
         expect(isJSON).toBe(true);
