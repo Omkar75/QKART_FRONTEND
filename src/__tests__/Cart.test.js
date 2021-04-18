@@ -36,6 +36,8 @@ beforeAll(() => {
               }
             });
           },
+          ok: true,
+          status: 200
         });
       }, 500);
     });

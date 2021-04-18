@@ -38,16 +38,18 @@ beforeAll(() => {
         return new Promise((resolve) => {
             setTimeout(() => {
                 resolve({
-                    json: async () => {
-                        return new Promise((resolveNested) => {
-                            resolveNested({
-                                success: true,
-                                token: "testtoken",
-                                username: "test123",
-                            });
-                        })
-                    }
-                })
+                  json: async () => {
+                    return new Promise((resolveNested) => {
+                      resolveNested({
+                        success: true,
+                        token: "testtoken",
+                        username: "test123",
+                      });
+                    });
+                  },
+                  ok: true,
+                  status: 200,
+                });
             }, 500);
         });
     }
