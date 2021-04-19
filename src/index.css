@@ -38,6 +38,7 @@ hr {
   text-align: center;
   border-radius: 4px;
   /* TODO: CRIO_TASK_MODULE_UNDERSTANDING_BASICS - Add a border of 1px solid #d1d5da */
+  border: 1px solid #d1d5da;
 }
 
 .container-fullpage {
