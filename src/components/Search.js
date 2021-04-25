@@ -1,13 +1,13 @@
 import { Input, message, Space } from "antd";
 import React from "react";
-import { withRouter, Redirect } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { config } from "../App";
+import Cart from "./Cart";
 import Header from "./Header";
 import Product from "./Product";
 import { Row, Col } from "antd";
 import Footer from "./Footer";
 import "./Search.css";
-import { useState } from "react";
 
 /**
  * @typedef {Object} Product
@@ -23,6 +23,8 @@ import { useState } from "react";
  * @class Search component handles the Products list page UI and functionality
  * 
  * Contains the following fields
+ * @property {React.RefObject} cartRef 
+ *    Reference to Cart component (to trigger certain methods within the cart component)
  * @property {number} debounceTimeout 
  *    Holds the return value from setTimeout() for the search bar debouncer
  * @property {Product[]} products 
@@ -43,8 +45,8 @@ class Search extends React.Component {
       loading: false,
       loggedIn: false,
       filteredProducts: [],
-      setSearchTerm : ''
     };
+    this.cartRef = React.createRef();
   }
 
   /**
@@ -123,7 +125,6 @@ class Search extends React.Component {
    * }
    */
   performAPICall = async () => {
-    debugger
     let response = {};
     let errored = false;
 
@@ -155,7 +156,6 @@ class Search extends React.Component {
    *      -   Update `filteredProducts` state variable with a clone of `products`
    */
   getProducts = async () => {
-    debugger
     const pro = await this.performAPICall();
     if (pro !== undefined) {
       this.products = pro;
@@ -252,7 +252,6 @@ class Search extends React.Component {
    */
   debounceSearch = (event) => {
     const argu = event.target.value
-    debugger
     console.log("search prod")
     clearTimeout(this.debounceTimeout)
     this.debounceTimeout = setTimeout(()=>this.search(argu), 300)
@@ -273,7 +272,9 @@ class Search extends React.Component {
           product={product}
           addToCart={() => {
             if (this.state.loggedIn) {
-              message.info("Cart functionality not implemented yet");
+              debugger
+              
+              this.cartRef.current.pushToCart(product._id, 1)
             }else{
               this.props.history.push('/login')
             }
@@ -287,6 +288,7 @@ class Search extends React.Component {
    * JSX and HTML goes here
    * We require a text field as the search (optionally along with a button for submitting the search query)
    * We also iterate over the filteredProducts list and display each product as a component
+   * Display Cart sidebar component if user is logged in
    */
   render() {
     return (
@@ -303,8 +305,10 @@ class Search extends React.Component {
         {/* Use Antd Row/Col components to display products and cart as columns in the same row*/}
         <Row>
           {/* Display products */}
-          <Col
-            xs={{ span: 24 }}
+          {this.state.loggedIn ? 
+            <Col
+            xs={24}
+            md={18}
           >
             <div className="search-container ">
               {/* Display each product item wrapped in a Col component */}
@@ -321,8 +325,40 @@ class Search extends React.Component {
               </Row>
             </div>
           </Col>
+          :
+          <Col
+            xs={24}
+          >
+            <div className="search-container ">
+              {/* Display each product item wrapped in a Col component */}
+              <Row>
+                {this.products.length !== 0 ? (
+                  this.state.filteredProducts.map((product) =>
+                    this.getProductElement(product)
+                  )
+                ) : this.state.loading ? (
+                  <div className="loading-text">Loading products...</div>
+                ) : (
+                  <div className="loading-text">No products to list</div>
+                )}
+              </Row>
+            </div>
+          </Col>
+          }
+          
 
-          {/* Display cart */}
+          {this.state.loggedIn && this.products.length && (
+            <Col
+              xs = {{span : 24}}
+              md = {6}
+              className="search-cart"
+            >
+              <div history={this.props.history}>
+                {/* TODO: CRIO_TASK_MODULE_CART - Add a Cart to the products page */}
+                <Cart ref={this.cartRef} products={this.products}/>
+              </div>
+            </Col>
+          )}
         </Row>
 
         {/* Display the footer */}
