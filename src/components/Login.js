@@ -28,7 +28,6 @@ class Login extends React.Component {
     };
   }
 
-  // TODO: CRIO_TASK_MODULE_LOGIN - Fetch the API response
   /**
    * Perform the API call over the network and return the response
    *

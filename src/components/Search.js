@@ -355,7 +355,7 @@ class Search extends React.Component {
             >
               <div history={this.props.history}>
                 {/* TODO: CRIO_TASK_MODULE_CART - Add a Cart to the products page */}
-                <Cart ref={this.cartRef} products={this.products}/>
+                <Cart ref={this.cartRef} products={this.products} history={this.props.history}/>
               </div>
             </Col>
           )}
