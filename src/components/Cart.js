@@ -270,7 +270,6 @@ export default class Cart extends React.Component {
           (total, item) => total + item.product.cost * item.qty,
           0
         )
-        
       : 0;
   };
 

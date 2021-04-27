@@ -130,7 +130,6 @@ class Checkout extends React.Component {
    * }
    */
   getProducts = async () => {
-    debugger
     let response = {};
     let errored = false;
 
@@ -222,7 +221,6 @@ class Checkout extends React.Component {
    * }
    */
   getAddresses = async () => {
-    debugger
     let response = {};
     let errored = false;
 
@@ -326,7 +324,6 @@ class Checkout extends React.Component {
     }
   };
 
-  // TODO: CRIO_TASK_MODULE_CHECKOUT - Implement deleteAddresses() to make DELETE API request to the backend API path "/user/addresses/:userid"
   /**
    * Perform the API call to delete an address for the user
    *
